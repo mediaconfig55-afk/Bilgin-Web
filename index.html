@@ -147,10 +147,11 @@
 
     .hero-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 800; line-height: 1.05;
-      letter-spacing: -2px;
+      font-size: clamp(1.7rem, 5.5vw, 5.5rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -1px;
       animation: fadeDown .8s .4s both;
+      word-break: keep-all;
     }
     .hero-title .line2 { color: var(--accent); }
     .hero-title .line3 {
@@ -216,9 +217,9 @@
     }
     .section-title {
       font-family: 'Syne', sans-serif;
-      font-size: clamp(1.9rem, 4vw, 3.2rem);
-      font-weight: 800; letter-spacing: -1.5px;
-      line-height: 1.1; margin-bottom: 18px;
+      font-size: clamp(1.5rem, 4vw, 3.2rem);
+      font-weight: 800; letter-spacing: -1px;
+      line-height: 1.15; margin-bottom: 18px;
     }
     .section-desc { color: var(--muted); font-size: .98rem; line-height: 1.75; max-width: 540px; }
 
@@ -240,7 +241,7 @@
     .stat-item:hover { background: var(--card); }
     .stat-num {
       font-family: 'Syne', sans-serif;
-      font-size: 2.8rem; font-weight: 800;
+      font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800;
       color: var(--accent); line-height: 1;
     }
     .stat-label { color: var(--muted); font-size: .82rem; margin-top: 6px; }
@@ -376,7 +377,7 @@
       border-radius: 20px; padding: 48px 40px;
       text-align: center;
     }
-    .cta-box h3 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 14px; }
+    .cta-box h3 { font-family: 'Syne', sans-serif; font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 800; margin-bottom: 14px; }
     .cta-box p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 28px; }
 
     /* ── FOOTER ── */
@@ -414,6 +415,26 @@
       nav ul.open li a { font-size: 1.3rem; }
       .stat-item { flex: 1 1 45%; }
       .cursor, .cursor-ring { display: none; }
+
+      section { padding: 70px 5%; }
+      #hero { padding: 90px 5% 60px; }
+
+      .hero-sub { font-size: .92rem; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 280px; justify-content: center; }
+
+      .services-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { grid-template-columns: 1fr; gap: 32px; }
+      .cta-box { padding: 32px 22px; }
+
+      .process-list::before { left: 20px; }
+      .process-num { width: 40px; height: 40px; font-size: .8rem; }
+
+      .stats-row { border-radius: 10px; }
+      .stat-item { padding: 24px 18px; }
+
+      .tools-flex { gap: 8px; }
+      .tool-pill { font-size: .78rem; padding: 8px 14px; }
     }
   </style>
 </head>
