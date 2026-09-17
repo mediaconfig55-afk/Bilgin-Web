@@ -8,8 +8,9 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 navToggle?.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
+  const isOpen = navLinks.classList.toggle('open');
   navToggle.classList.toggle('active');
+  navToggle.setAttribute('aria-expanded', String(isOpen));
 });
 document.querySelectorAll('.nav-links a').forEach(a => {
   a.addEventListener('click', () => navLinks.classList.remove('open'));
