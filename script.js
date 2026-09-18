@@ -18,9 +18,17 @@ document.querySelectorAll('.nav-links a').forEach(a => {
 
 /* ============ Cursor glow ============ */
 const glow = document.getElementById('cursorGlow');
+let glowX = 0, glowY = 0, glowQueued = false;
 window.addEventListener('mousemove', (e) => {
-  glow.style.left = e.clientX + 'px';
-  glow.style.top = e.clientY + 'px';
+  glowX = e.clientX;
+  glowY = e.clientY;
+  if (!glowQueued) {
+    glowQueued = true;
+    requestAnimationFrame(() => {
+      glow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
+      glowQueued = false;
+    });
+  }
 }, { passive: true });
 
 /* ============ Card tilt effect ============ */
@@ -171,9 +179,20 @@ revealTargets.forEach(el => io.observe(el));
   }, { passive: true });
 
   const clock = new THREE.Clock();
+  let heroVisible = true;
+  let rafId = null;
+
+  const heroObserver = new IntersectionObserver((entries) => {
+    heroVisible = entries[0].isIntersecting;
+    if (heroVisible && rafId === null) {
+      rafId = requestAnimationFrame(animate);
+    }
+  }, { threshold: 0 });
+  heroObserver.observe(container);
 
   function animate() {
-    requestAnimationFrame(animate);
+    if (!heroVisible) { rafId = null; return; }
+    rafId = requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
 
     coreGroup.rotation.y = t * 0.18 + mouseX * 0.35;
