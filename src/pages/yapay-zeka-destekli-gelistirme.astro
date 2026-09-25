@@ -1,0 +1,150 @@
+---
+import ServicePage from "../layouts/ServicePage.astro";
+import type { FaqEntry } from "../components/Faq.astro";
+import { url } from "../lib/url";
+
+const faqs: FaqEntry[] = [
+  {
+    q: "Yapay zekayla yazılan uygulama güvenli mi?",
+    a: "Güvenliği araç değil, süreç belirliyor. İzinleri, şifrelemeyi, anahtar yönetimini ve mağaza formlarını elle kontrol ediyorum. Örneğin Reglim’de sağlık verileri cihazın içinde AES-256 ile şifreleniyor ve anahtar Android Keystore’da duruyor.",
+  },
+  {
+    q: "Bu, fiyata ve süreye yansıyor mu?",
+    a: "Taslak ve tekrar eden işler kısaldığı için aynı kapsamı daha kısa sürede bitirebiliyorum. Teklifi de bu süreye göre hazırlıyorum; kazanılan zamanın bir kısmı test ve ince ayara gidiyor.",
+  },
+  {
+    q: "Uygulamama yapay zeka özelliği ekleyebilir misin?",
+    a: "Evet. Sohbet, özetleme, sınıflandırma ya da öneri gibi özellikler bir yapay zeka servisine bağlanarak eklenebiliyor. Önce hangi verinin dışarı gideceğini ve kullanıcıya bunun nasıl söyleneceğini konuşuyoruz.",
+  },
+  {
+    q: "Hangi araçları kullanıyorsun?",
+    a: "Kod yazarken projenin tamamını okuyabilen, terminalde çalışan kod asistanları kullanıyorum; uygulamaların içinde ise Gemini gibi servislerin API’lerini. Araçlar değişiyor, çalışma şekli aynı kalıyor: taslak araçtan, karar benden.",
+  },
+];
+
+const facts = [
+  { label: "Kullandığım yerler", value: "Kod taslakları, testler, sürüm yükseltmeleri, belgeler" },
+  { label: "Elle yaptıklarım", value: "Mimari, gizlilik, gerçek cihazda test, mağaza kuralları" },
+  { label: "Proje kuralları", value: "Her projede kodla birlikte duran bir kurallar dosyası" },
+  { label: "Sonuç", value: "Aynı işin daha kısa takvimde, aynı kontrolle bitmesi" },
+];
+---
+
+<ServicePage
+  path="/yapay-zeka-destekli-gelistirme/"
+  title="Yapay Zeka Destekli Uygulama ve Web Geliştirme | Emre Bilgin"
+  description="Android uygulama ve web sitesi geliştirirken yapay zeka araçlarını nasıl kullandığım: neyi hızlandırıyor, neyi elle yapıyorum ve kaliteyi nasıl koruyorum."
+  heading="Yapay zeka destekli geliştirme"
+  lede="Kod yazarken, test hazırlarken ve belge okurken yapay zeka araçlarını her gün kullanıyorum. Bu sayfada bunun işine nasıl yansıdığını ve neleri hâlâ elle yaptığımı anlatıyorum."
+  serviceName="Yapay zeka destekli yazılım geliştirme"
+  serviceType="Yazılım geliştirme"
+  facts={facts}
+  faqs={faqs}
+  work={["finans", "ayik-sofor", "reglim", "dijital-davetiye"]}
+  workTitle="Bu yöntemle yaptığım işler"
+  message="Merhaba Emre, yapay zeka destekli geliştirme hakkında konuşmak istiyorum."
+  og="yapay-zeka-destekli-gelistirme"
+>
+  <h2>Araçlar neyi hızlandırıyor</h2>
+  <ul>
+    <li>
+      <strong>Tekrar eden kod.</strong> Form doğrulama, liste ekranları, veri modelleri. Bir kez doğru
+      yazılması gereken ama her projede yeniden gereken işler.
+    </li>
+    <li>
+      <strong>İlk taslaklar.</strong> Bir ekranın ya da sayfanın ilk hâli kısa sürede çıkıyor; ben onu
+      düzeltiyor, sadeleştiriyor ve sağlamlaştırıyorum.
+    </li>
+    <li>
+      <strong>Testler.</strong> Fiyat hesabı, form doğrulama gibi yanlış çalıştığında para ya da
+      müşteri kaybettiren fonksiyonların testleri.
+      <a href={url("/isler/ayik-sofor/")}>Ayık Şoför</a> uygulamasında bu fonksiyonların hepsi testli.
+    </li>
+    <li>
+      <strong>Sürüm yükseltmeleri.</strong> Expo ya da React Native yeni sürüme geçtiğinde değişen
+      yerleri bulmak.
+    </li>
+    <li>
+      <strong>Belgeler.</strong> Mağaza metinleri, gizlilik politikası taslakları, Play Console formları
+      için kontrol listeleri.
+    </li>
+  </ul>
+
+  <h2>Neyi hâlâ ben yapıyorum</h2>
+  <ul>
+    <li>Verinin nerede tutulacağına, hangi servisin kullanılacağına karar vermek.</li>
+    <li>İzinleri, şifrelemeyi ve gizli anahtarların uygulamaya gömülmemesini kontrol etmek.</li>
+    <li>
+      Her sürümü gerçek telefonda denemek: izin reddedildiğinde, internet yokken, eski bir cihazda.
+    </li>
+    <li>Google Play politikalarını okumak ve uygulamayı bunlara göre ayarlamak.</li>
+    <li>Neyin yayına çıkacağına son kararı vermek.</li>
+  </ul>
+
+  <h2>Araçların sık yaptığı hatalar</h2>
+  <p>
+    Bu hataların çoğu Türkçe ve Türkiye’ye özgü. Kod ilk bakışta doğru görünüyor, sorun gece yarısı,
+    büyük harfle yazılan bir şehir adında ya da binlik ayırıcılı bir tutarda ortaya çıkıyor.
+  </p>
+  <dl class="deliverables">
+    <dt>Saat dilimi</dt>
+    <dd>
+      Tarihi <code>toISOString()</code> ile üretmek, UTC’ye çevirdiği için Türkiye saatiyle gece
+      yarısından sonra girilen kaydı bir gün geriye atıyor.
+    </dd>
+    <dt>Sayı biçimi</dt>
+    <dd>
+      Ekranda “1.500” olarak görünen tutar <code>parseFloat</code> ile okunduğunda 1,5 oluyor. Türkçe
+      biçimi okuyan ve yazan ayrı fonksiyonlar gerekiyor.
+    </dd>
+    <dt>Büyük ve küçük harf</dt>
+    <dd>
+      “istanbul” kelimesini dil belirtmeden büyük harfe çevirmek “ISTANBUL” veriyor; doğrusu
+      “İSTANBUL”. Türkçe metinde <code>toLocaleUpperCase("tr-TR")</code> kullanılmalı.
+    </dd>
+    <dt>Zorunlu izin akışları</dt>
+    <dd>
+      İzin reddedilince kapanmayan bir pencere, uygulamayı kilitliyor.
+      <a href={url("/yazilar/google-play-giris-kimlik-bilgisi-reddi/")}
+        >Finans’ın bir sürümü bu yüzden Google Play’den döndü</a
+      >.
+    </dd>
+    <dt>Gizli anahtarlar</dt>
+    <dd>
+      Bir servisin API anahtarını uygulamanın içine yazmak kolay ama yanlış; paketi açan herkes okuyabilir.
+      Anahtar sunucu tarafında kalmalı.
+    </dd>
+  </dl>
+
+  <h2>Proje kurallarını nasıl tutuyorum</h2>
+  <p>
+    Her projede kodla birlikte duran kısa bir kurallar dosyası var: hangi fonksiyon ne için kullanılır,
+    hangi hata bir daha yapılmamalı, testler nasıl çalıştırılır. Araç her oturuma bu dosyayı okuyarak
+    başlıyor. Yeni bir hata yakaladığımda dosyaya bir satır ekliyorum; aynı hata ikinci kez gelmiyor.
+    <a href={url("/isler/finans/")}>Finans</a> projesinin README dosyasındaki üç kural buna bir örnek.
+  </p>
+
+  <h2>Uygulamanın içinde yapay zeka</h2>
+  <p>
+    Yapay zekayı uygulamanın bir özelliği olarak da ekleyebiliyorum. Ama her özellik gibi bunun da bir
+    bedeli var: kullanıcının verisi dışarıdaki bir servise gidiyor. Finans’ta Gemini ile çalışan bir
+    bütçe danışmanı vardı. Danışmanın çalışması için kullanıcının harcama dökümünü dışarı göndermesi
+    gerekiyordu; bu, uygulamanın “verin telefondan çıkmaz” ilkesiyle bağdaşmadığı için 1.2 sürümünde
+    kaldırdım. Bir özelliği eklemeden önce hangi verinin nereye gideceğini konuşmamız bu yüzden.
+  </p>
+
+  <h2>Senin için ne anlama geliyor</h2>
+  <ul>
+    <li>
+      <strong>Daha kısa takvim.</strong> Taslak ve tekrar işler hızlandığı için zamanın daha büyük kısmı
+      test ve ince ayara kalıyor.
+    </li>
+    <li>
+      <strong>Aynı kontrol.</strong> Yayına giden her sürüm aynı kontrol listesinden geçiyor.
+    </li>
+    <li>
+      <strong>Açık iletişim.</strong> Hangi işi aracın hızlandırdığını, hangisini elle yaptığımı
+      saklamıyorum; bu sayfa da bunun için var.
+    </li>
+  </ul>
+</ServicePage>

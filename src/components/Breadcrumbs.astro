@@ -1,0 +1,67 @@
+---
+import type { Crumb } from "../lib/schema";
+import { url } from "../lib/url";
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+const lastIndex = items.length - 1;
+---
+
+<nav class="crumbs" aria-label="Sayfa yolu">
+  <ol>
+    {
+      items.map((item, index) => (
+        <li>
+          {index < lastIndex ? (
+            <a href={url(item.href)}>{item.name}</a>
+          ) : (
+            <span aria-current="page">{item.name}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  .crumbs li {
+    display: inline-flex;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  .crumbs li + li::before {
+    content: "/";
+    margin-inline: var(--space-xs);
+    color: var(--color-rule-strong);
+  }
+
+  .crumbs a {
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .crumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .crumbs [aria-current] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-muted);
+  }
+</style>

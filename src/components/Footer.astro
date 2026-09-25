@@ -1,0 +1,158 @@
+---
+import { services, site, whatsappUrl } from "../data/site";
+import { url } from "../lib/url";
+
+const year = new Date().getFullYear();
+const pages = [
+  { href: "/isler/", label: "İşler" },
+  { href: "/yazilar/", label: "Yazılar" },
+  { href: "/hakkimda/", label: "Hakkımda" },
+  { href: "/iletisim/", label: "İletişim" },
+  { href: "/gizlilik/", label: "Gizlilik" },
+];
+---
+
+<footer class="colophon">
+  <div class="wrap">
+    <div class="colophon__mast">
+      <div>
+        <a class="colophon__name" href={url("/")}>Emre Bilgin</a>
+        <p class="colophon__tagline">
+          Android uygulamaları ve web siteleri. Samsun’da, Türkiye’nin her yerine.
+        </p>
+      </div>
+      <a class="btn" href={whatsappUrl()} rel="noopener">
+        WhatsApp’tan yaz <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="colophon__rows">
+      <nav class="colophon__row" aria-label="Hizmetler">
+        <h2 class="colophon__label">Hizmetler</h2>
+        <ul>
+          {
+            services.map((service) => (
+              <li>
+                <a href={url(service.href)}>{service.title}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <nav class="colophon__row" aria-label="Site">
+        <h2 class="colophon__label">Site</h2>
+        <ul>
+          {
+            pages.map((page) => (
+              <li>
+                <a href={url(page.href)}>{page.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="colophon__row">
+        <h2 class="colophon__label">İletişim</h2>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a class="tnum" href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
+          <li><a href={site.github} rel="noopener">GitHub</a></li>
+          <li><a href={site.playDeveloper.url} rel="noopener">Google Play</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="colophon__fine">
+      © {year} Emre Bilgin · Samsun, Türkiye. Bu site Astro ile yazıldı; başlıklar Newsreader,
+      metinler IBM Plex Sans ile dizildi.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .colophon {
+    padding-block: var(--space-2xl) var(--space-xl);
+    border-top: var(--rule-bold) double var(--color-ink);
+    background: var(--color-paper-2);
+  }
+
+  .colophon__mast {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding-bottom: var(--space-xl);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .colophon__name {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 500;
+    letter-spacing: var(--tracking-display);
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .colophon__name:hover {
+    color: var(--color-ink);
+  }
+
+  .colophon__tagline {
+    margin-top: var(--space-sm);
+    color: var(--color-muted);
+    max-width: 42ch;
+  }
+
+  .colophon__rows {
+    display: grid;
+    gap: var(--space-md);
+    padding-block: var(--space-lg);
+  }
+
+  .colophon__row {
+    display: grid;
+    gap: var(--space-2xs) var(--space-lg);
+  }
+
+  .colophon__label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-neutral);
+  }
+
+  .colophon__row ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-lg);
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+
+  .colophon__row a {
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .colophon__row a:hover {
+    text-decoration: underline;
+  }
+
+  .colophon__fine {
+    padding-top: var(--space-lg);
+    border-top: var(--rule-hair) solid var(--color-rule);
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  @media (min-width: 48rem) {
+    .colophon__row {
+      grid-template-columns: 7rem 1fr;
+      align-items: baseline;
+    }
+  }
+</style>

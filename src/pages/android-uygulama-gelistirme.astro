@@ -1,0 +1,142 @@
+---
+import ServicePage from "../layouts/ServicePage.astro";
+import type { FaqEntry } from "../components/Faq.astro";
+import { url } from "../lib/url";
+
+const faqs: FaqEntry[] = [
+  {
+    q: "iOS sürümü de çıkabilir mi?",
+    a: "React Native ile yazılan bir uygulamanın kodu büyük ölçüde iOS’ta da çalışır. App Store yayını ise ayrı bir Apple geliştirici hesabı, ayrı bir inceleme ve ek test demek; kapsamını ve maliyetini teklifte ayrı bir kalem olarak konuşuyoruz.",
+  },
+  {
+    q: "Google Play geliştirici hesabını kim açıyor?",
+    a: "Uygulamanın senin mülkün olarak kalması için hesabın senin ya da şirketinin adına açılmasını öneriyorum. Google 25 dolarlık tek seferlik bir kayıt ücreti alıyor ve kimlik doğrulaması istiyor; kurulumu birlikte yapıyoruz.",
+  },
+  {
+    q: "Uygulama internetsiz çalışabilir mi?",
+    a: "Evet. HatırLat ve Finans tamamen internetsiz çalışıyor, veriler telefonda tutuluyor. Cihazlar arasında eşitleme gerekiyorsa veriyi hem telefonda hem sunucuda tutan bir yapı kuruyorum.",
+  },
+  {
+    q: "Yayından sonra ne oluyor?",
+    a: "Android her yıl yeni bir sürüm çıkarıyor ve Google Play, güncellemelerin yeni API seviyelerini hedeflemesini şart koşuyor. Bu uyarlamaları ve hata düzeltmelerini bir bakım anlaşmasıyla ya da iş bazında yapıyorum.",
+  },
+  {
+    q: "Uygulamadan gelir elde edebilir miyim?",
+    a: "Reklam, abonelik ya da tek seferlik satın alma eklenebiliyor. HatırLat reklam ve Pro sürümle, Reglim Premium abonelikle çalışıyor; hangi modelin uygun olduğu kullanıcı kitlesine göre değişiyor.",
+  },
+];
+
+const facts = [
+  { label: "Google Play’de yayında", value: "4 uygulama (Lokums geliştirici hesabı)" },
+  { label: "Teknoloji", value: "React Native, Expo, Kotlin, SQLite, Firebase, Supabase" },
+  { label: "Gelir modelleri", value: "AdMob, abonelik, tek seferlik satın alma" },
+  { label: "Çalışma şekli", value: "Samsun’da yüz yüze, Türkiye geneli uzaktan" },
+];
+---
+
+<ServicePage
+  path="/android-uygulama-gelistirme/"
+  title="Android Uygulama Geliştirme ve Yaptırma, Samsun | Emre Bilgin"
+  description="Android uygulama yaptırmak isteyenler için tasarım, geliştirme ve Google Play yayını. Samsun’dan Türkiye geneline; Google Play’de yayında dört uygulamayla."
+  heading="Android uygulama geliştirme"
+  lede="Fikrini çalışan bir Android uygulamasına dönüştürüyorum: ekranları tasarlıyor, kodu yazıyor, Google Play’e yüklüyor ve yayından sonra güncel tutuyorum. Şu an Google Play’de yayında dört uygulamam var."
+  serviceName="Android uygulama geliştirme"
+  serviceType="Mobil uygulama geliştirme"
+  facts={facts}
+  faqs={faqs}
+  work={["reglim", "hatirlat", "finans", "ayik-sofor"]}
+  workTitle="Google Play’deki uygulamalarım"
+  message="Merhaba Emre, bir Android uygulama fikrim var."
+  og="android-uygulama-gelistirme"
+  contactTitle="Uygulama fikrini anlat."
+  contactIntro="Kimin kullanacağını ve neyi çözeceğini iki üç cümleyle yazman yeterli. Ekranları, süreyi ve maliyeti ilk görüşmede birlikte netleştiririz."
+>
+  <h2>Kimler için</h2>
+  <ul>
+    <li>
+      Müşterisine telefon üzerinden ulaşmak isteyen işletmeler: sipariş, randevu, rezervasyon ya da
+      çağrı. <a href={url("/isler/ayik-sofor/")}>Ayık Şoför Samsun</a> uygulaması, şoför talebini
+      konumla birlikte tek dokunuşta WhatsApp’a iletiyor.
+    </li>
+    <li>Bir fikri olan ve ilk sürümü kısa sürede gerçek kullanıcılara ulaştırmak isteyenler.</li>
+    <li>
+      Uygulaması eskimiş, güncellenemeyen ya da Google Play politikaları yüzünden kaldırılma riski
+      taşıyanlar.
+    </li>
+  </ul>
+
+  <h2>Neler dahil</h2>
+  <dl class="deliverables">
+    <dt>Ekran tasarımı</dt>
+    <dd>
+      Önce kullanıcının izleyeceği akışı, sonra ekranları çiziyorum. Tasarım onaylanmadan koda
+      geçmiyorum; değişiklik en ucuz bu aşamada.
+    </dd>
+    <dt>Geliştirme</dt>
+    <dd>
+      React Native (Expo) ya da Kotlin. Hangisinin uygun olduğunu uygulamanın ihtiyacına göre birlikte
+      seçiyoruz.
+    </dd>
+    <dt>Veri ve arka uç</dt>
+    <dd>
+      Veri telefonda mı kalacak, sunucuda mı tutulacak? Gerekiyorsa Firebase ya da Supabase ile
+      üyelik, veritabanı ve dosya depolama kuruyorum. Gerekmiyorsa kurmuyorum; her sunucu, aylık gider
+      ve bakım demek.
+    </dd>
+    <dt>Bildirimler ve internetsiz çalışma</dt>
+    <dd>
+      Zamanlanmış hatırlatmalar, internet yokken çalışan ekranlar, telefon yeniden başladıktan sonra
+      kaybolmayan bildirimler.
+    </dd>
+    <dt>Gelir</dt>
+    <dd>AdMob reklamları, abonelik ya da tek seferlik satın alma.</dd>
+    <dt>Google Play yayını</dt>
+    <dd>
+      Mağaza metni ve görselleri, veri güvenliği formu, içerik derecelendirmesi, uygulama erişimi
+      beyanı ve inceleme süreci.
+    </dd>
+    <dt>Yayından sonra</dt>
+    <dd>
+      Çökme raporlarını izliyor, hataları düzeltiyor, Android ve Google Play kuralları değiştikçe
+      uygulamayı uyarlıyorum.
+    </dd>
+  </dl>
+
+  <h2>React Native mi, Kotlin mi?</h2>
+  <p>
+    Çoğu işletme uygulaması için React Native (Expo) ile başlamayı öneriyorum. Tek bir kod tabanı
+    olduğu için ileride iOS sürümü de çıkarılabiliyor ve güncellemeler hızlı yayınlanıyor. Google
+    Play’deki dört uygulamamı da bu yolla yazdım.
+  </p>
+  <p>
+    Kamera, Bluetooth ya da arka planda uzun süre çalışan işler gibi cihaza sıkı bağlı özelliklerde
+    Kotlin ile yerel geliştirme daha doğru olabiliyor. Kararı ilk görüşmede, gerekçesiyle birlikte
+    veriyoruz.
+  </p>
+
+  <h2>Google Play süreci</h2>
+  <p>
+    Uygulamayı yazmak işin bir kısmı; yayına almak ayrı bir süreç. 13 Kasım 2023’ten sonra açılan kişisel
+    geliştirici hesaplarında, uygulama herkese açılmadan önce en az 12 kişinin katıldığı kapalı bir
+    testin 14 gün boyunca kesintisiz sürmesi gerekiyor. Şirket adına açılan hesaplar bu şarttan muaf.
+    Bu süreyi takvime baştan ekliyor, test kullanıcılarını birlikte planlıyoruz.
+  </p>
+  <p>
+    İnceleme her zaman ilk seferde geçmiyor. Finans uygulamamın bir sürümü, uygulamada giriş ekranı
+    olmadığı hâlde “giriş kimlik bilgisi sağlanmadı” gerekçesiyle reddedilmişti. Sebebi kapatılamayan
+    bir izin penceresiydi;
+    <a href={url("/yazilar/google-play-giris-kimlik-bilgisi-reddi/")}
+      >ne olduğunu ve nasıl çözdüğümü bu yazıda anlattım</a
+    >.
+  </p>
+
+  <h2>Fiyat ve süre</h2>
+  <p>
+    Fiyatı ekran sayısı, kullanıcı hesabı gerekip gerekmediği, ödeme alınıp alınmayacağı ve bağlanacak
+    dış servisler belirliyor. Görüşmeden sonra her kalemin karşısında süresi ve ücreti yazan bir teklif
+    hazırlıyorum; neyin maliyeti artırdığını görerek karar veriyorsun.
+    <a href={url("/yazilar/android-uygulama-yaptirmak/")}
+      >Maliyeti belirleyen yedi şeyi ayrı bir yazıda topladım</a
+    >.
+  </p>
+</ServicePage>

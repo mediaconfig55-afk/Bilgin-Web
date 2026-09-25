@@ -1,0 +1,16 @@
+{
+  "name": "Emre Bilgin · Android uygulama ve web sitesi geliştirme",
+  "short_name": "Emre Bilgin",
+  "description": "Samsun'da Android uygulama ve web sitesi geliştirme.",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "browser",
+  "background_color": "#f9f6ef",
+  "theme_color": "#f9f6ef",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

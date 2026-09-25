@@ -1,0 +1,80 @@
+:root {
+  color-scheme: light;
+
+  /* Renk: sıcak kâğıt, mürekkep ve tek bir vurgu (Karadeniz yeşili) */
+  --color-paper: oklch(97.3% 0.009 85);
+  --color-paper-2: oklch(94.6% 0.012 85);
+  --color-paper-3: oklch(91.8% 0.014 84);
+  --color-rule: oklch(86.5% 0.013 82);
+  --color-rule-strong: oklch(72% 0.012 80);
+  --color-neutral: oklch(50% 0.012 75);
+  --color-muted: oklch(40% 0.012 70);
+  --color-ink: oklch(20.5% 0.012 65);
+  --color-accent: oklch(48% 0.105 160);
+  --color-accent-deep: oklch(40% 0.09 160);
+  --color-accent-wash: oklch(93.5% 0.03 160);
+  --color-focus: oklch(52% 0.12 160);
+  --color-screen: oklch(17% 0.01 65);
+  --color-shadow: oklch(20.5% 0.012 65 / 0.14);
+
+  /* Yazı tipleri (dosyalar astro.config.mjs içindeki Fonts API ile yükleniyor) */
+  --font-display: var(--font-newsreader);
+  --font-body: var(--font-plex);
+  --font-mono: var(--font-plex-mono);
+
+  /* Tip ölçeği */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-md: 1.25rem;
+  --text-lg: clamp(1.375rem, 1.2rem + 0.6vw, 1.625rem);
+  --text-xl: clamp(1.75rem, 1.35rem + 1.5vw, 2.375rem);
+  --text-2xl: clamp(2.125rem, 1.4rem + 2.8vw, 3.25rem);
+  --text-display: clamp(2.5rem, 1.3rem + 4.4vw, 4.75rem);
+
+  --leading-display: 1.04;
+  --leading-heading: 1.12;
+  --leading-body: 1.62;
+  --tracking-display: -0.022em;
+  --tracking-heading: -0.012em;
+  --tracking-label: 0.02em;
+
+  /* Boşluk (4 pt tabanlı) */
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  /* Düzen */
+  --page-max: 76rem;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --measure: 66ch;
+  --section-gap: clamp(4rem, 3rem + 5vw, 7.5rem);
+
+  /* Çizgiler ve köşeler */
+  --rule-hair: 1px;
+  --rule-bold: 3px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-screen: 1.35rem;
+
+  /* Katmanlar */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-sticky: 200;
+  --z-modal: 400;
+
+  /* Hareket */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+}

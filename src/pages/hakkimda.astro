@@ -1,0 +1,277 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactBlock from "../components/ContactBlock.astro";
+import { site } from "../data/site";
+import { sortWork } from "../lib/format";
+import { breadcrumbNode, graph, personNode, webPageNode } from "../lib/schema";
+import { absoluteUrl, url } from "../lib/url";
+
+const apps = (await getCollection("work"))
+  .filter((entry) => entry.data.kind === "android" && entry.data.status === "live")
+  .sort(sortWork);
+
+const tools = [
+  { area: "Mobil", items: "React Native, Expo, Kotlin, Android Studio" },
+  { area: "Web", items: "HTML, CSS, JavaScript, TypeScript, Astro, Next.js, Tailwind CSS" },
+  { area: "Veri ve arka uç", items: "SQLite, Firebase, Supabase" },
+  { area: "Gelir", items: "AdMob, RevenueCat" },
+  { area: "Yayın", items: "Google Play Console, Vercel, GitHub Pages" },
+  { area: "Tasarım", items: "Figma" },
+  { area: "Yapay zeka", items: "Kod asistanları, Gemini API" },
+];
+
+const principles = [
+  {
+    title: "Önce kullanan kişi",
+    text: "Bir ekranın ne kadar güzel olduğundan önce, gece yarısı yorgun bir kullanıcının onu anlayıp anlamayacağına bakıyorum.",
+  },
+  {
+    title: "Gizlilik varsayılan",
+    text: "Uygulamalarımın çoğu hesap istemiyor ve veriyi telefonda tutuyor. Bu bir tesadüf değil; bir veri dışarı çıkacaksa bunun bir gerekçesi olmalı.",
+  },
+  {
+    title: "Önce çalışan çekirdek",
+    text: "İlk sürümde her şeyi değil, işe yarayan çekirdeği yayına alıyorum. Gerisini gerçek kullanıcıların ne yaptığına bakarak ekliyoruz.",
+  },
+  {
+    title: "Yazılı ve açık",
+    text: "Kapsam, fiyat ve değişiklikler yazılı. Bir şeyi yapamayacaksam ya da yapmamak daha doğruysa bunu baştan söylüyorum.",
+  },
+];
+
+const title = "Hakkımda | Emre Bilgin, Samsun’da Android ve Web Geliştirici";
+const description =
+  "Samsun’da Android uygulama ve web sitesi geliştiren Emre Bilgin. Nasıl çalıştığım, kullandığım araçlar ve Google Play’de yayında olan uygulamalarım.";
+const crumbs = [
+  { name: "Ana sayfa", href: "/" },
+  { name: "Hakkımda", href: "/hakkimda/" },
+];
+
+const schema = graph(
+  {
+    ...webPageNode({ path: "/hakkimda/", title, description, type: "ProfilePage", crumbs }),
+    mainEntity: { "@id": absoluteUrl("/#emre-bilgin") },
+  },
+  personNode(),
+  breadcrumbNode("/hakkimda/", crumbs),
+);
+---
+
+<Base title={title} description={description} schema={schema} og="hakkimda">
+  <div class="wrap page-head">
+    <Breadcrumbs items={crumbs} />
+    <h1 class="page-title">Hakkımda</h1>
+  </div>
+
+  <div class="wrap about">
+    <div class="about__letter prose">
+      <p class="about__open">
+        Ben Emre Bilgin. Samsun’da yaşıyorum; Android uygulamaları ve web siteleri geliştiriyorum.
+      </p>
+      <p>
+        Bu yıl dört uygulamayı Google Play’e çıkardım: bir regl takvimi, bir hatırlatıcı, bir kişisel finans
+        uygulaması ve Samsun’daki bir özel şoför hizmeti için bir çağrı uygulaması. Hepsinin ekranlarını,
+        kodunu, mağaza sayfasını ve güncellemelerini ben hazırlıyorum. Aynı dönemde Samsun’daki bir
+        organizasyon firmasının sitesini, iki işletme için ürün ve marka sitelerini ve QR kodlu bir dijital
+        davetiye ürününü yaptım.
+      </p>
+      <p>
+        Çalışırken yapay zeka araçlarını her gün kullanıyorum. Bunu saklamıyorum, çünkü işimin nasıl
+        yapıldığını bilmek senin de hakkın. Araçlar taslağı hızlandırıyor; mimariyi, gizliliği, testi ve
+        yayına neyin çıkacağını ben belirliyorum.
+        <a href={url("/yapay-zeka-destekli-gelistirme/")}>Yöntemimi ayrı bir sayfada anlattım.</a>
+      </p>
+      <p>
+        Bir işletmeyle çalışırken aracı bir ekip ya da hesap yöneticisi yok. İlk mesajı okuyan, teklifi
+        yazan, kodu yazan ve yayına çıkaran aynı kişi.
+      </p>
+    </div>
+
+    <aside class="about__aside" aria-label="Google Play’deki uygulamalarım">
+      <h2 class="about__label">Google Play’de yayında</h2>
+      <ul class="about__apps">
+        {
+          apps.map((app) => (
+            <li>
+              <a href={url(`/isler/${app.id}/`)}>{app.data.title}</a>
+              <span>{app.data.short}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="about__note">
+        Geliştirici hesabı: <a href={site.playDeveloper.url}>{site.playDeveloper.name}</a>
+      </p>
+    </aside>
+  </div>
+
+  <section class="section section--rule" aria-labelledby="principles-title">
+    <div class="wrap">
+      <h2 id="principles-title" class="section-title">Nasıl çalışırım</h2>
+      <ul class="principles" role="list">
+        {
+          principles.map((principle) => (
+            <li>
+              <h3>{principle.title}</h3>
+              <p>{principle.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--rule" aria-labelledby="tools-title">
+    <div class="wrap tools">
+      <h2 id="tools-title" class="section-title">Kullandığım araçlar</h2>
+      <table class="tools__table">
+        <caption class="visually-hidden">Alanlara göre kullandığım araçlar</caption>
+        <tbody>
+          {
+            tools.map((tool) => (
+              <tr>
+                <th scope="row">{tool.area}</th>
+                <td>{tool.items}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <ContactBlock title="Tanışalım." />
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .about__open {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-ink);
+  }
+
+  .about__aside {
+    align-self: start;
+    padding-top: var(--space-md);
+    border-top: var(--rule-bold) solid var(--color-ink);
+  }
+
+  .about__label {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .about__apps {
+    margin-top: var(--space-sm);
+    padding: 0;
+    list-style: none;
+  }
+
+  .about__apps li {
+    display: grid;
+    padding-block: var(--space-sm);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .about__apps a {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    text-decoration: none;
+  }
+
+  .about__apps a:hover {
+    text-decoration: underline;
+  }
+
+  .about__apps span {
+    font-size: var(--text-xs);
+    color: var(--color-muted);
+  }
+
+  .about__note {
+    margin-top: var(--space-md);
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  .principles {
+    display: grid;
+    gap: 0 var(--space-2xl);
+    margin-top: var(--space-xl);
+    padding: 0;
+    list-style: none;
+  }
+
+  .principles li {
+    padding-block: var(--space-lg);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .principles h3 {
+    font-size: var(--text-lg);
+  }
+
+  .principles p {
+    margin-top: var(--space-xs);
+    color: var(--color-muted);
+    max-width: 52ch;
+  }
+
+  .tools {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .tools__table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: var(--rule-hair) solid var(--color-ink);
+  }
+
+  .tools__table th,
+  .tools__table td {
+    padding: var(--space-sm) var(--space-md) var(--space-sm) 0;
+    text-align: left;
+    vertical-align: baseline;
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .tools__table th {
+    width: 11rem;
+    font-weight: 500;
+    color: var(--color-neutral);
+    font-size: var(--text-sm);
+  }
+
+  @media (min-width: 64rem) {
+    .about {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      column-gap: var(--space-3xl);
+    }
+
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tools__table {
+      max-width: 52rem;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .tools__table th {
+      width: 7.5rem;
+    }
+  }
+</style>

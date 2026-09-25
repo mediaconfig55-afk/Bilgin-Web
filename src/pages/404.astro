@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import { url } from "../lib/url";
+
+const links = [
+  { href: "/", label: "Ana sayfa" },
+  { href: "/isler/", label: "İşler" },
+  { href: "/android-uygulama-gelistirme/", label: "Android uygulama geliştirme" },
+  { href: "/web-sitesi-tasarimi/", label: "Web sitesi tasarımı" },
+  { href: "/iletisim/", label: "İletişim" },
+];
+---
+
+<Base
+  title="Sayfa bulunamadı | Emre Bilgin"
+  description="Aradığın sayfa bu adreste yok. Ana sayfaya, işlere ya da hizmet sayfalarına buradan ulaşabilirsin."
+  noindex
+>
+  <div class="wrap notfound">
+    <p class="notfound__code tnum" aria-hidden="true">404</p>
+    <h1 class="page-title">Bu adreste bir sayfa yok.</h1>
+    <p class="lede">
+      Bağlantı eskimiş ya da adres yanlış yazılmış olabilir. Aradığın şey büyük ihtimalle şunlardan
+      birinde:
+    </p>
+    <ul class="notfound__links">
+      {
+        links.map((link) => (
+          <li>
+            <a class="link-more" href={url(link.href)}>
+              {link.label} <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<style>
+  .notfound {
+    padding-block: var(--space-2xl) var(--section-gap);
+  }
+
+  .notfound__code {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    color: var(--color-accent);
+    line-height: 1;
+  }
+
+  .notfound .page-title {
+    margin-top: var(--space-md);
+  }
+
+  .notfound .lede {
+    margin-top: var(--space-md);
+  }
+
+  .notfound__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md) var(--space-xl);
+    margin-top: var(--space-xl);
+    padding: 0;
+    list-style: none;
+  }
+</style>

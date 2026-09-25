@@ -1,0 +1,472 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ContactBlock from "../../components/ContactBlock.astro";
+import Shot from "../../components/Shot.astro";
+import { services } from "../../data/site";
+import { formatDate, kindLabel, sortWork, statusLabel } from "../../lib/format";
+import { breadcrumbNode, graph, webPageNode, workNode } from "../../lib/schema";
+import { absoluteUrl, url } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const work = (await getCollection("work")).sort(sortWork);
+  return work.map((entry, index) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: work[index - 1] ?? work[work.length - 1],
+      next: work[index + 1] ?? work[0],
+    },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"work">;
+  prev: CollectionEntry<"work">;
+  next: CollectionEntry<"work">;
+}
+
+const { entry, prev, next } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const path = `/isler/${entry.id}/`;
+const og = `isler-${entry.id}`;
+const title = `${data.title}: ${data.short} | Emre Bilgin`;
+const crumbs = [
+  { name: "Ana sayfa", href: "/" },
+  { name: "İşler", href: "/isler/" },
+  { name: data.title, href: path },
+];
+
+const schema = graph(
+  webPageNode({
+    path,
+    title,
+    description: data.description,
+    type: "ItemPage",
+    image: absoluteUrl(`/og/${og}.png`),
+    crumbs,
+  }),
+  breadcrumbNode(path, crumbs),
+  workNode(entry, absoluteUrl(`/og/${og}.png`)),
+);
+
+const leadShot =
+  data.cover && data.coverFrame !== "phone"
+    ? { src: data.cover, alt: data.coverAlt ?? data.title, frame: data.coverFrame }
+    : null;
+const phoneShots = [
+  ...(data.cover && data.coverFrame === "phone"
+    ? [{ src: data.cover, alt: data.coverAlt ?? data.title, caption: undefined, frame: "phone" as const }]
+    : []),
+  ...data.shots.filter((shot) => shot.frame === "phone"),
+];
+const wideShots = data.shots.filter((shot) => shot.frame !== "phone");
+const phonesAside = data.kind === "web" && phoneShots.length > 0;
+const relatedServices = services.filter((service) => data.services.includes(service.href));
+const contactMessage = `Merhaba Emre, sitende ${data.title} projesini gördüm. Benzer bir iş için yazıyorum.`;
+---
+
+<Base title={title} description={data.description} schema={schema} og={og}>
+  <article>
+    <header class="wrap case-head">
+      <Breadcrumbs items={crumbs} />
+      <div class="case-head__grid">
+        <div class="case-head__main">
+          {
+            data.icon && (
+              <Image
+                class="case-icon"
+                src={data.icon}
+                alt={`${data.title} uygulama simgesi`}
+                width={72}
+                height={72}
+                densities={[1, 2]}
+                loading="eager"
+              />
+            )
+          }
+          <h1 class="case-title">{data.title}</h1>
+          <p class="case-tagline">{data.tagline}</p>
+          <div class="case-actions">
+            {
+              data.playUrl && (
+                <a class="btn" href={data.playUrl}>
+                  Google Play’de aç <span aria-hidden="true">↗</span>
+                </a>
+              )
+            }
+            {
+              data.liveUrl && (
+                <a class="btn" href={data.liveUrl}>
+                  Siteyi aç <span aria-hidden="true">↗</span>
+                </a>
+              )
+            }
+            {
+              data.links.map((link) => (
+                <a class="link-more" href={link.href}>
+                  {link.label} <span aria-hidden="true">↗</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <dl class="facts">
+          <div>
+            <dt>Tür</dt>
+            <dd>{kindLabel[data.kind]} · {data.category}</dd>
+          </div>
+          {
+            data.client && (
+              <div>
+                <dt>Müşteri</dt>
+                <dd>{[data.client, data.location].filter(Boolean).join(", ")}</dd>
+              </div>
+            )
+          }
+          <div>
+            <dt>Yaptıklarım</dt>
+            <dd>{data.role}</dd>
+          </div>
+          <div>
+            <dt>Teknoloji</dt>
+            <dd>{data.stack.join(", ")}</dd>
+          </div>
+          {
+            data.version && (
+              <div>
+                <dt>Güncel sürüm</dt>
+                <dd class="tnum">
+                  {data.version}
+                  {data.updated && <span class="facts__soft"> · {formatDate(data.updated)}</span>}
+                </dd>
+              </div>
+            )
+          }
+          {
+            data.released && (
+              <div>
+                <dt>İlk yayın</dt>
+                <dd>{formatDate(data.released)}</dd>
+              </div>
+            )
+          }
+          {
+            data.monetization && (
+              <div>
+                <dt>Gelir modeli</dt>
+                <dd>{data.monetization}</dd>
+              </div>
+            )
+          }
+          {
+            data.packageName && (
+              <div>
+                <dt>Paket adı</dt>
+                <dd>
+                  <code>{data.packageName}</code>
+                </dd>
+              </div>
+            )
+          }
+          <div>
+            <dt>Durum</dt>
+            <dd>
+              <span class:list={["status", `status--${data.status}`]}>{statusLabel[data.status]}</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    {
+      leadShot && (
+        <div class="wrap case-lead">
+          <Shot
+            src={leadShot.src}
+            alt={leadShot.alt}
+            frame={leadShot.frame}
+            eager
+            sizes={leadShot.frame === "wide" ? "(min-width: 64rem) 64rem, calc(100vw - 2rem)" : undefined}
+          />
+        </div>
+      )
+    }
+
+    {
+      !phonesAside && phoneShots.length > 0 && (
+        <div class="wrap">
+          <div class="phone-strip">
+            {phoneShots.map((shot, index) => (
+              <Shot
+                src={shot.src}
+                alt={shot.alt}
+                caption={shot.caption}
+                frame="phone"
+                eager={!leadShot && index < 2}
+                sizes="(min-width: 64rem) 15rem, 44vw"
+              />
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <div class:list={["wrap", "case-body", { "case-body--aside": phonesAside }]}>
+      <div class="prose">
+        <Content />
+      </div>
+      {
+        phonesAside && (
+          <aside class="case-aside" aria-label="Telefon ekranları">
+            {phoneShots.map((shot) => (
+              <Shot src={shot.src} alt={shot.alt} caption={shot.caption} frame="phone" sizes="(min-width: 64rem) 15rem, 60vw" />
+            ))}
+          </aside>
+        )
+      }
+    </div>
+
+    {
+      wideShots.length > 0 && (
+        <div class="wrap case-wide">
+          {wideShots.map((shot) => (
+            <Shot src={shot.src} alt={shot.alt} caption={shot.caption} frame={shot.frame} />
+          ))}
+        </div>
+      )
+    }
+
+    <footer class="wrap case-foot">
+      {
+        relatedServices.length > 0 && (
+          <div class="case-foot__services">
+            <h2 class="case-foot__label">İlgili hizmet</h2>
+            <ul>
+              {relatedServices.map((service) => (
+                <li>
+                  <a href={url(service.href)}>{service.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+      <nav class="pn" aria-label="Diğer işler">
+        <a class="pn__link" href={url(`/isler/${prev.id}/`)} rel="prev">
+          <span class="pn__dir">← Önceki iş</span>
+          <span class="pn__name">{prev.data.title}</span>
+        </a>
+        <a class="pn__link pn__link--next" href={url(`/isler/${next.id}/`)} rel="next">
+          <span class="pn__dir">Sonraki iş →</span>
+          <span class="pn__name">{next.data.title}</span>
+        </a>
+      </nav>
+    </footer>
+  </article>
+
+  <ContactBlock
+    title="Benzer bir iş mi düşünüyorsun?"
+    intro={`${data.title} gibi bir ${data.kind === "android" ? "uygulama" : "site"} için neyin gerektiğini, kabaca ne kadar süreceğini ve nereden başlamak gerektiğini birlikte netleştirelim.`}
+    message={contactMessage}
+    subject={`${data.title} benzeri proje`}
+  />
+</Base>
+
+<style>
+  .case-head {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .case-head__grid {
+    display: grid;
+    gap: var(--space-xl);
+    margin-top: var(--space-lg);
+  }
+
+  .case-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: var(--space-lg);
+    border-radius: 1.1rem;
+    border: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .case-title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .case-tagline {
+    margin-top: var(--space-md);
+    font-size: var(--text-md);
+    line-height: 1.5;
+    color: var(--color-muted);
+    max-width: 46ch;
+  }
+
+  .case-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-lg);
+    margin-top: var(--space-xl);
+  }
+
+  .facts {
+    display: grid;
+    align-content: start;
+    border-top: var(--rule-bold) solid var(--color-ink);
+    font-size: var(--text-sm);
+  }
+
+  .facts > div {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .facts dt {
+    color: var(--color-neutral);
+  }
+
+  .facts dd {
+    margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .facts__soft {
+    color: var(--color-neutral);
+  }
+
+  .case-lead {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .case-lead :global(.shot--wide) {
+    max-width: 64rem;
+  }
+
+  .phone-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-md);
+    margin-bottom: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .case-body {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-block: var(--space-xl) var(--space-2xl);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .case-aside {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-md);
+    align-content: start;
+  }
+
+  .case-wide {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .case-foot {
+    display: grid;
+    gap: var(--space-xl);
+    padding-block: var(--space-xl) var(--space-lg);
+    border-top: var(--rule-hair) solid var(--color-ink);
+  }
+
+  .case-foot__label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-neutral);
+  }
+
+  .case-foot__services ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-lg);
+    margin-top: var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-foot__services a {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .pn {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  .pn__link {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-block: var(--space-md);
+    text-decoration: none;
+  }
+
+  .pn__link--next {
+    text-align: right;
+  }
+
+  .pn__dir {
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  .pn__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .pn__link:hover .pn__name {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+  }
+
+  @media (min-width: 48rem) {
+    .phone-strip {
+      grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .case-head__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      column-gap: var(--space-3xl);
+      align-items: end;
+    }
+
+    .case-body--aside {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      column-gap: var(--space-3xl);
+    }
+
+    .case-aside {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+    }
+  }
+</style>

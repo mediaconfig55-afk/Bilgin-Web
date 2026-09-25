@@ -1,0 +1,22 @@
+# build
+dist/
+.astro/
+
+# dependencies
+node_modules/
+# CI (withastro/action) paket yöneticisini kilit dosyasından tanıyor; global ignore'u burada geri alıyoruz.
+!package-lock.json
+
+# logs
+npm-debug.log*
+
+# environment
+.env
+.env.*
+
+# editor / local tooling
+.DS_Store
+.vscode/
+.idea/
+.claude/
+.hallmark/

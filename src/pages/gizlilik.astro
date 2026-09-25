@@ -1,0 +1,86 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import { site } from "../data/site";
+import { formatDate, isoDate } from "../lib/format";
+import { breadcrumbNode, graph, webPageNode } from "../lib/schema";
+import { url } from "../lib/url";
+
+const updated = new Date("2026-09-26");
+const title = "Gizlilik | Emre Bilgin";
+const description =
+  "Bu sitede çerez, analitik ya da reklam izleme kodu yok. İletişim sırasında paylaştığın bilgilerin nasıl kullanıldığı ve KVKK kapsamındaki hakların.";
+const crumbs = [
+  { name: "Ana sayfa", href: "/" },
+  { name: "Gizlilik", href: "/gizlilik/" },
+];
+const schema = graph(
+  webPageNode({ path: "/gizlilik/", title, description, crumbs }),
+  breadcrumbNode("/gizlilik/", crumbs),
+);
+---
+
+<Base title={title} description={description} schema={schema} og="varsayilan">
+  <div class="wrap page-head">
+    <Breadcrumbs items={crumbs} />
+    <h1 class="page-title">Gizlilik</h1>
+    <p class="lede">
+      Kısaca: bu site seni izlemiyor. Son güncelleme:
+      <time datetime={isoDate(updated)}>{formatDate(updated)}</time>.
+    </p>
+  </div>
+
+  <div class="wrap">
+    <div class="prose privacy">
+      <h2>Bu sitede neler yok</h2>
+      <p>
+        Çerez, ziyaretçi analitiği, reklam ya da sosyal medya izleme kodu kullanmıyorum. Yazı tipleri dahil
+        sayfadaki her dosya bu sitenin kendi adresinden geliyor; sayfayı açtığında üçüncü bir servise
+        istek gitmiyor. Sitede form da yok.
+      </p>
+
+      <h2>Bana yazdığında</h2>
+      <p>
+        WhatsApp, telefon ya da e-postayla ulaştığında paylaştığın bilgileri (adın, iletişim bilgin,
+        projenle ilgili anlattıkların) yalnızca sana dönüş yapmak, teklif hazırlamak ve birlikte iş
+        yaparsak o işi yürütmek için kullanıyorum. Bu bilgileri üçüncü kişilerle paylaşmıyorum.
+        Mesajlaşırken kullandığın servisin (WhatsApp, e-posta sağlayıcın) kendi gizlilik koşulları da
+        geçerli.
+      </p>
+
+      <h2>Barındırma</h2>
+      <p>
+        Site GitHub Pages üzerinde yayınlanıyor. GitHub, hizmetin güvenliği için ziyaretçilerin IP
+        adreslerini kaydedebiliyor; ayrıntılar
+        <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement"
+          >GitHub’ın gizlilik bildiriminde</a
+        >.
+      </p>
+
+      <h2>Uygulamalarım</h2>
+      <p>
+        Google Play’deki uygulamalarımın her birinin kendi gizlilik politikası var ve mağaza sayfalarında
+        bağlantısı bulunuyor. Uygulamaların hangi veriyi nerede tuttuğunu
+        <a href={url("/isler/")}>iş sayfalarında</a> da anlattım.
+      </p>
+
+      <h2>Hakların</h2>
+      <p>
+        6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında, hakkında tuttuğum bilgileri öğrenmek,
+        düzeltilmesini ya da silinmesini istemek için
+        <a href={`mailto:${site.email}`}>{site.email}</a> adresine yazabilirsin.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .privacy {
+    padding-block: var(--space-xl) var(--section-gap);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .privacy h2:first-child {
+    margin-top: 0;
+  }
+</style>

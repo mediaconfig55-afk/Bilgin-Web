@@ -1,0 +1,96 @@
+---
+import { mailtoUrl, site, whatsappUrl } from "../data/site";
+
+interface Props {
+  title?: string;
+  intro?: string;
+  message?: string;
+  subject?: string;
+}
+
+const {
+  title = "Bir fikrin varsa yaz.",
+  intro = "Bir uygulama, bir site ya da henüz adı konmamış bir fikir olabilir. İlk konuşmada ne yapılabileceğini, kabaca ne kadar süreceğini ve nereden başlamak gerektiğini birlikte netleştiririz.",
+  message,
+  subject,
+} = Astro.props;
+---
+
+<section class="contact section section--rule" aria-labelledby="contact-title">
+  <div class="wrap contact__grid">
+    <div>
+      <h2 id="contact-title" class="section-title">{title}</h2>
+      <p class="lede contact__intro">{intro}</p>
+    </div>
+    <div class="contact__side">
+      <p class="contact__hint">Mesajında şunlar olursa daha hızlı ilerleriz:</p>
+      <ul class="contact__list">
+        <li>Ne yapmak istediğin, iki üç cümleyle</li>
+        <li>Kimlerin kullanacağı</li>
+        <li>Beğendiğin bir iki uygulama ya da site</li>
+        <li>Aklındaki bir tarih varsa o tarih</li>
+      </ul>
+      <div class="contact__actions">
+        <a class="btn" href={whatsappUrl(message)}>
+          WhatsApp’tan yaz <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="link-more" href={mailtoUrl(subject)}>E-posta gönder</a>
+      </div>
+      <p class="contact__fine">
+        Telefon: <a class="tnum" href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .contact__intro {
+    margin-top: var(--space-md);
+  }
+
+  .contact__side {
+    padding-top: var(--space-md);
+    border-top: var(--rule-hair) solid var(--color-ink);
+  }
+
+  .contact__hint {
+    font-weight: 500;
+  }
+
+  .contact__list {
+    margin-top: var(--space-sm);
+    padding-left: 1.2em;
+    color: var(--color-muted);
+  }
+
+  .contact__list li + li {
+    margin-top: var(--space-2xs);
+  }
+
+  .contact__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+
+  .contact__fine {
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 60rem) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-3xl);
+      align-items: start;
+    }
+  }
+</style>

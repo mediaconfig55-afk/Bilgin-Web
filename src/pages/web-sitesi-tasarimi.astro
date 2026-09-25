@@ -1,0 +1,117 @@
+---
+import ServicePage from "../layouts/ServicePage.astro";
+import type { FaqEntry } from "../components/Faq.astro";
+import { url } from "../lib/url";
+
+const faqs: FaqEntry[] = [
+  {
+    q: "WordPress ile mi yapıyorsun?",
+    a: "Genelde hayır. İçeriği sık değişmeyen işletme sitelerinde statik bir site daha hızlı açılıyor, güvenlik güncellemesi beklemiyor ve bakımı kolay. Düzenli içerik eklenecekse bunu kolaylaştıran bir yapı öneriyorum.",
+  },
+  {
+    q: "Siteyi sonra kendim güncelleyebilir miyim?",
+    a: "Metin ve görsel değişikliklerini kolayca yapabileceğin bir düzen kuruyorum. Blog yazısı ya da ürün eklemek gibi düzenli işler için basit bir içerik paneli de eklenebiliyor.",
+  },
+  {
+    q: "Google’da ilk sırada çıkar mıyım?",
+    a: "Bunu kimse dürüstçe garanti edemez. Garanti edebileceğim şey sitenin teknik olarak doğru kurulması: her hizmetin ayrı sayfası, doğru başlıklar, hızlı açılış, yapılandırılmış veri. Sıralamayı bunların üstüne içerik, rekabet ve zaman belirliyor.",
+  },
+  {
+    q: "Alan adı ve barındırma ne kadar tutar?",
+    a: "Alan adı yıllık ödenir, fiyatı uzantıya ve firmaya göre değişir. Statik bir sitenin barındırma maliyeti genelde düşüktür; seçenekleri ve kullanım şartlarını teklifte yazıyorum.",
+  },
+  {
+    q: "Mevcut sitemi yenileyebilir misin?",
+    a: "Evet. Önce mevcut sitenin hangi sayfalarının Google’dan ziyaretçi getirdiğine bakıyorum. Yeni sitede bu adresleri koruyor ya da doğru şekilde yönlendiriyorum ki kazanılmış sıralama kaybolmasın.",
+  },
+];
+
+const facts = [
+  { label: "Yayındaki örnek", value: "Defne Organizasyon, Samsun" },
+  { label: "Teknoloji", value: "HTML, CSS, JavaScript, Astro, Next.js" },
+  { label: "Dahil olanlar", value: "Tasarım, kodlama, teknik SEO, Search Console kurulumu" },
+  { label: "Çalışma şekli", value: "Samsun’da yüz yüze, Türkiye geneli uzaktan" },
+];
+---
+
+<ServicePage
+  path="/web-sitesi-tasarimi/"
+  title="Web Sitesi Tasarımı ve SEO Uyumlu Site Yaptırma | Emre Bilgin"
+  description="İşletmeler için telefonda hızlı açılan, Google’da bulunan ve ziyaretçiyi WhatsApp’a yönlendiren web siteleri. Tasarım, kodlama, teknik SEO ve yayın."
+  heading="Web sitesi tasarımı"
+  lede="İşletmen için telefonda hızlı açılan, doğru aramalarda Google’da çıkan ve ziyaretçiyi sana ulaştıran bir site hazırlıyorum. Hazır tema kullanmıyorum; tasarımı ve kodu işine göre yazıyorum."
+  serviceName="Web sitesi tasarımı ve geliştirme"
+  serviceType="Web tasarım"
+  facts={facts}
+  faqs={faqs}
+  work={["defne-organizasyon", "ikon-klima", "majka-artisan", "dijital-davetiye"]}
+  workTitle="Hazırladığım siteler"
+  message="Merhaba Emre, işletmem için bir web sitesi yaptırmak istiyorum."
+  og="web-sitesi-tasarimi"
+  contactTitle="Sitende ne olması gerektiğini konuşalım."
+  contactIntro="İşletmeni, sunduğun hizmetleri ve müşterinin seni nasıl bulduğunu anlat. Sayfa yapısını, süreyi ve maliyeti ilk görüşmede birlikte çıkarırız."
+>
+  <h2>Hangi siteler</h2>
+  <dl class="deliverables">
+    <dt>Kurumsal tanıtım sitesi</dt>
+    <dd>
+      Her hizmeti ayrı bir sayfada anlatan, ziyaretçiyi telefona ve WhatsApp’a yönlendiren site.
+      <a href={url("/isler/defne-organizasyon/")}>Defne Organizasyon</a> böyle kuruldu: sekiz hizmet,
+      sekiz sayfa.
+    </dd>
+    <dt>Ürün kataloğu</dt>
+    <dd>
+      Ürün gruplarına göre filtrelenen, aranabilen, her ürünün kendi sayfası olan katalog.
+      <a href={url("/isler/ikon-klima/")}>İkon Klima</a> için hazırladığım site bir örnek.
+    </dd>
+    <dt>Marka ve içerik sitesi</dt>
+    <dd>
+      Blog, rehber ve sık sorulanlarla aramalardan ziyaretçi toplayan site.
+      <a href={url("/isler/majka-artisan/")}>Majka Artisan</a> ekşi maya ekmeğini böyle anlatıyor.
+    </dd>
+    <dt>Tanıtım ve etkinlik sayfası</dt>
+    <dd>
+      Tek bir ürün, kampanya ya da etkinlik için hazırlanan sayfa.
+      <a href={url("/isler/dijital-davetiye/")}>Dijital Davetiye</a> tanıtım sayfası ve davetiyeleri bu
+      gruba giriyor.
+    </dd>
+  </dl>
+
+  <h2>Google’da bulunması için yaptıklarım</h2>
+  <p>
+    Bir sitenin aramada görünmesi, yayına çıkmadan önce verilen kararlarla başlıyor. Her projede şunları
+    yapıyorum:
+  </p>
+  <ul>
+    <li>Her hizmete ayrı bir sayfa; her sayfaya kendi başlığı ve açıklaması.</li>
+    <li>Anlaşılır adresler, site haritası ve robots dosyası.</li>
+    <li>İşletme, hizmet, sık sorulanlar ve sayfa yolu için yapılandırılmış veri.</li>
+    <li>Görseller için AVIF ve WebP gibi modern biçimler, ekrana göre doğru boyut.</li>
+    <li>Telefonda hızlı açılış: gereksiz eklenti ve betik yok.</li>
+    <li>Search Console kurulumu ve site haritasının Google’a bildirilmesi.</li>
+  </ul>
+  <p>
+    Samsun’da hizmet veren bir işletmeysen yerel aramalar için yaptıklarımı
+    <a href={url("/samsun-web-tasarim/")}>Samsun sayfasında</a> ayrıca anlattım.
+  </p>
+
+  <h2>Neden hazır tema değil</h2>
+  <p>
+    Hazır temalar ihtiyacın olmayan pek çok özelliği de beraberinde getiriyor. Bu da telefonda yavaş
+    açılan sayfalar demek. Sayfa hızı, ziyaretçinin sitede kalıp kalmayacağını etkilediği gibi
+    Google’ın sayfa deneyimi değerlendirmesine de giriyor.
+  </p>
+  <p>
+    Elle yazılan bir sitede her satırın bir görevi var. Defne Organizasyon’un sitesinde derleme adımı ya
+    da bağımlılık yok; sıradan bir hostinge kopyalanıp olduğu gibi çalışıyor. Bu sitenin kendisi de aynı
+    anlayışla yazıldı: yazı tipleri dahil her şey kendi sunucusundan geliyor, çerez ya da izleme kodu
+    yok.
+  </p>
+
+  <h2>Fiyat ve süre</h2>
+  <p>
+    Fiyatı sayfa sayısı, içeriğin hazır olup olmadığı, ürün kataloğu ya da çok dillilik gibi özellikler
+    ve bağlanacak servisler belirliyor. Görüşmeden sonra sayfa sayfa bir teklif ve teslim takvimi
+    hazırlıyorum.
+  </p>
+</ServicePage>

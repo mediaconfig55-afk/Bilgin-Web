@@ -1,0 +1,221 @@
+---
+import { getCollection } from "astro:content";
+import Base from "./Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ContactBlock from "../components/ContactBlock.astro";
+import Faq, { type FaqEntry } from "../components/Faq.astro";
+import WorkTeaser from "../components/WorkTeaser.astro";
+import { whatsappUrl } from "../data/site";
+import { sortWork } from "../lib/format";
+import {
+  breadcrumbNode,
+  faqNode,
+  graph,
+  serviceNode,
+  webPageNode,
+  type Crumb,
+  type JsonLd,
+} from "../lib/schema";
+import { absoluteUrl } from "../lib/url";
+
+interface Fact {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  path: string;
+  title: string;
+  description: string;
+  heading: string;
+  lede: string;
+  serviceName: string;
+  serviceType: string;
+  facts: Fact[];
+  faqs: FaqEntry[];
+  work: string[];
+  workTitle?: string;
+  message: string;
+  og: string;
+  contactTitle?: string;
+  contactIntro?: string;
+  extraSchema?: JsonLd[];
+  parent?: Crumb;
+}
+
+const {
+  path,
+  title,
+  description,
+  heading,
+  lede,
+  serviceName,
+  serviceType,
+  facts,
+  faqs,
+  work: workSlugs,
+  workTitle = "Bu alandaki işlerim",
+  message,
+  og,
+  contactTitle,
+  contactIntro,
+  extraSchema = [],
+  parent = { name: "Hizmetler", href: "/hizmetler/" },
+} = Astro.props;
+
+const allWork = (await getCollection("work")).sort(sortWork);
+const related = workSlugs
+  .map((slug) => allWork.find((entry) => entry.id === slug))
+  .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
+
+const crumbs: Crumb[] = [{ name: "Ana sayfa", href: "/" }, parent, { name: heading, href: path }];
+
+const schema = graph(
+  webPageNode({ path, title, description, crumbs, image: absoluteUrl(`/og/${og}.png`) }),
+  breadcrumbNode(path, crumbs),
+  serviceNode({ path, name: serviceName, serviceType, description }),
+  ...(faqs.length ? [faqNode(path, faqs)] : []),
+  ...extraSchema,
+);
+---
+
+<Base title={title} description={description} schema={schema} og={og}>
+  <div class="wrap page-head">
+    <Breadcrumbs items={crumbs} />
+    <h1 class="page-title">{heading}</h1>
+    <p class="lede">{lede}</p>
+  </div>
+
+  <div class="wrap service">
+    <article class="prose service__main">
+      <slot />
+    </article>
+
+    <aside class="service__aside" aria-label="Kısaca">
+      <h2 class="service__aside-title">Kısaca</h2>
+      <dl class="service__facts">
+        {
+          facts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <a class="btn service__cta" href={whatsappUrl(message)}>
+        WhatsApp’tan yaz <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </aside>
+  </div>
+
+  {
+    related.length > 0 && (
+      <section class="section section--rule" aria-labelledby="related-title">
+        <div class="wrap">
+          <h2 id="related-title" class="section-title related-title">
+            {workTitle}
+          </h2>
+          <div class="related">
+            {related.map((entry) => (
+              <WorkTeaser entry={entry} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    faqs.length > 0 && (
+      <section class="section section--rule" aria-labelledby="faq-title">
+        <div class="wrap">
+          <h2 id="faq-title" class="section-title related-title">
+            Sık sorulanlar
+          </h2>
+          <Faq items={faqs} />
+        </div>
+      </section>
+    )
+  }
+
+  <ContactBlock title={contactTitle} intro={contactIntro} message={message} subject={serviceName} />
+</Base>
+
+<style>
+  .service {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .service__main {
+    padding-top: var(--space-xl);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .service__main :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .service__aside {
+    align-self: start;
+    padding-top: var(--space-md);
+    border-top: var(--rule-bold) solid var(--color-ink);
+  }
+
+  .service__aside-title {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .service__facts {
+    margin-top: var(--space-sm);
+    font-size: var(--text-sm);
+  }
+
+  .service__facts > div {
+    padding-block: var(--space-sm);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .service__facts dt {
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  .service__facts dd {
+    margin: var(--space-3xs) 0 0;
+  }
+
+  .service__cta {
+    margin-top: var(--space-lg);
+  }
+
+  .related-title {
+    margin-bottom: var(--space-xl);
+  }
+
+  .related {
+    display: grid;
+    border-top: var(--rule-hair) solid var(--color-ink);
+  }
+
+  @media (min-width: 64rem) {
+    .service {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      column-gap: var(--space-3xl);
+    }
+
+    .service__aside {
+      position: sticky;
+      top: var(--space-lg);
+    }
+
+    .related {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-2xl);
+    }
+  }
+</style>

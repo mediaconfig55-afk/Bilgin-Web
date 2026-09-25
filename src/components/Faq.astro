@@ -1,0 +1,66 @@
+---
+import type { FaqItem } from "../lib/schema";
+import { url } from "../lib/url";
+
+export interface FaqEntry extends FaqItem {
+  link?: { href: string; label: string };
+}
+
+interface Props {
+  items: FaqEntry[];
+  headingLevel?: "h3" | "h4";
+}
+
+const { items, headingLevel = "h3" } = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class="faq">
+  {
+    items.map((item) => (
+      <div class="faq__item">
+        <Heading class="faq__q">{item.q}</Heading>
+        <div class="faq__a">
+          <p>
+            {item.a}
+            {item.link && (
+              <>
+                {" "}
+                <a href={url(item.link.href)}>{item.link.label}</a>
+              </>
+            )}
+          </p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    border-top: var(--rule-hair) solid var(--color-ink);
+  }
+
+  .faq__item {
+    display: grid;
+    gap: var(--space-xs) var(--space-xl);
+    padding-block: var(--space-lg);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .faq__q {
+    font-size: var(--text-lg);
+    line-height: 1.25;
+  }
+
+  .faq__a {
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+
+  @media (min-width: 60rem) {
+    .faq__item {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+  }
+</style>

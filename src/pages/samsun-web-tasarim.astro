@@ -1,0 +1,89 @@
+---
+import ServicePage from "../layouts/ServicePage.astro";
+import type { FaqEntry } from "../components/Faq.astro";
+import { url } from "../lib/url";
+
+const faqs: FaqEntry[] = [
+  {
+    q: "Samsun’da yüz yüze görüşebilir miyiz?",
+    a: "Evet. İlk görüşmeyi işletmende ya da buluşabileceğimiz bir yerde yapabiliriz. Sonraki adımlar çoğunlukla WhatsApp ve telefonla ilerliyor; gerektiğinde yeniden bir araya geliyoruz.",
+  },
+  {
+    q: "Google İşletme Profili’ni de kuruyor musun?",
+    a: "Profil işletme sahibinin Google hesabıyla açılıyor ve doğrulanıyor. Kurulumunda, bilgilerin siteyle aynı yazılmasında ve siteye bağlanmasında yardımcı oluyorum.",
+  },
+  {
+    q: "Sadece web sitesi mi, uygulama da mı?",
+    a: "İkisi de. Samsun’dan yayında bir site ve bir Android uygulaması var. İşletmenin ihtiyacı çoğu zaman önce iyi bir site oluyor; uygulama, müşteri sık ve tekrar tekrar geliyorsa anlam kazanıyor.",
+  },
+];
+
+const facts = [
+  { label: "Konum", value: "Samsun" },
+  { label: "Samsun’dan işler", value: "Defne Organizasyon sitesi, Ayık Şoför Samsun uygulaması" },
+  { label: "Görüşme", value: "Yüz yüze ya da WhatsApp, telefon, görüntülü görüşme" },
+  { label: "Hizmetler", value: "Web sitesi, Android uygulama, yerel SEO" },
+];
+---
+
+<ServicePage
+  path="/samsun-web-tasarim/"
+  title="Samsun Web Tasarım ve Mobil Uygulama | Emre Bilgin"
+  description="Samsun’da web sitesi ve Android uygulama yaptırmak isteyen işletmeler için: yüz yüze görüşme, yerel aramalara göre kurulan sayfalar ve yayında olan Samsun projeleri."
+  heading="Samsun’da web tasarım ve mobil uygulama"
+  lede="Samsun’da yaşıyorum ve buradaki işletmelerle yüz yüze çalışabiliyorum. Samsunlu bir organizasyon firmasının sitesi ve bir özel şoför hizmetinin Android uygulaması şu an yayında."
+  serviceName="Samsun web tasarım ve mobil uygulama geliştirme"
+  serviceType="Web tasarım ve mobil uygulama geliştirme"
+  facts={facts}
+  faqs={faqs}
+  work={["defne-organizasyon", "ayik-sofor"]}
+  workTitle="Samsun’dan iki iş"
+  message="Merhaba Emre, Samsun’dayım, işletmem için görüşmek istiyorum."
+  og="samsun-web-tasarim"
+  contactTitle="Samsun’daysan bir kahve içelim."
+  contactIntro="İşletmeni ve müşterilerinin seni nasıl bulduğunu anlat; sitede ya da uygulamada neyin işe yarayacağını yerinde birlikte konuşalım."
+>
+  <h2>Yerel aramada görünmek</h2>
+  <p>
+    Samsun’da hizmet veren bir işletme için en değerli aramalar şehir ya da ilçe adıyla yapılanlar:
+    “Samsun kına organizasyonu”, “Atakum klima servisi” gibi. Bu aramaları yapan kişi çoğu zaman o gün
+    birini arayacak kişi. Sitenin bu aramalarda görünmesi için yaptıklarım:
+  </p>
+  <ul>
+    <li>Her hizmet için, şehir adını doğal biçimde içeren ayrı bir sayfa.</li>
+    <li>Adres, telefon ve hizmet bölgesinin sitede ve Google İşletme Profili’nde aynı yazılması.</li>
+    <li>
+      Hizmet verdiğin ilçelerin (Atakum, İlkadım, Canik, Tekkeköy ya da daha uzakları) sayfada açıkça
+      belirtilmesi.
+    </li>
+    <li>Harita, yol tarifi ve tek dokunuşla arama ya da WhatsApp.</li>
+    <li>İşletme bilgisi ve hizmet bölgesi için yapılandırılmış veri.</li>
+  </ul>
+  <p>
+    <a href={url("/isler/defne-organizasyon/")}>Defne Organizasyon</a>'un sitesinde her organizasyon
+    türünün ayrı bir sayfası var; her sayfa “Samsun” ile birlikte aranan bir hizmeti hedefliyor.
+  </p>
+
+  <h2>Yüz yüze çalışmanın faydası</h2>
+  <p>
+    İşletmeyi yerinde görmek, sitenin neyi anlatması gerektiğini çoğu zaman uzun bir yazışmadan daha iyi
+    gösteriyor: ürünler nasıl duruyor, müşteri ilk neyi soruyor, satış nasıl kapanıyor. Fotoğraf
+    gerekiyorsa neyin çekileceğini de o görüşmede planlıyoruz.
+  </p>
+
+  <h2>Uygulama gerektiğinde</h2>
+  <p>
+    Her işletmenin uygulamaya ihtiyacı yok. Müşteri sık ve tekrar tekrar geliyorsa, sipariş ya da talep
+    telefondan hızlıca verilmesi gereken bir şeyse uygulama anlam kazanıyor.
+    <a href={url("/isler/ayik-sofor/")}>Ayık Şoför Samsun</a> bunun bir örneği: müşteri gece, aracının
+    yanında, tek dokunuşla şoför çağırıyor.
+    <a href={url("/android-uygulama-gelistirme/")}>Android uygulama geliştirme</a> sayfasında süreci
+    ayrıntılı anlattım.
+  </p>
+
+  <h2>Samsun dışından da yazabilirsin</h2>
+  <p>
+    Samsun dışındaki işletmelerle de aynı şekilde, WhatsApp, telefon ve görüntülü görüşmeyle
+    çalışıyorum. Süreç değişmiyor; yalnızca kahveyi ekran başında içiyoruz.
+  </p>
+</ServicePage>

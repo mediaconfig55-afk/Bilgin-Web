@@ -1,0 +1,510 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import ContactBlock from "../components/ContactBlock.astro";
+import Faq, { type FaqEntry } from "../components/Faq.astro";
+import LiveIndex from "../components/LiveIndex.astro";
+import Shot from "../components/Shot.astro";
+import Steps from "../components/Steps.astro";
+import WorkTable from "../components/WorkTable.astro";
+import { whatsappUrl } from "../data/site";
+import { formatDate, isoDate, sortPosts, sortWork } from "../lib/format";
+import {
+  businessNode,
+  faqNode,
+  graph,
+  personNode,
+  webPageNode,
+  websiteNode,
+} from "../lib/schema";
+import { url } from "../lib/url";
+
+const work = (await getCollection("work")).sort(sortWork);
+const posts = (await getCollection("posts")).sort(sortPosts).slice(0, 3);
+const bySlug = (slug: string) => {
+  const entry = work.find((item) => item.id === slug);
+  if (!entry) throw new Error(`İş bulunamadı: ${slug}`);
+  return entry;
+};
+const finans = bySlug("finans");
+const ayik = bySlug("ayik-sofor");
+const defne = bySlug("defne-organizasyon");
+
+const steps = [
+  {
+    title: "Tanışma",
+    text: "Fikrini WhatsApp’tan ya da telefonla anlatıyorsun. Kimin kullanacağını, ne işe yarayacağını ve elindeki malzemeyi konuşuyoruz.",
+  },
+  {
+    title: "Kapsam ve teklif",
+    text: "Ekranları ve özellikleri madde madde yazıya döküyorum. Fiyatı ve takvimi bu listeye göre veriyorum; sonradan eklenen iş ayrıca konuşuluyor.",
+  },
+  {
+    title: "Tasarım ve geliştirme",
+    text: "İlk ekranlar hazır olunca görüyorsun. Uygulamalarda test sürümü telefonuna, sitelerde önizleme bağlantısı tarayıcına geliyor.",
+  },
+  {
+    title: "Yayın ve sonrası",
+    text: "Google Play’e yüklemeyi ya da siteyi alan adına bağlamayı ben yapıyorum. Yayından sonra çıkan hataları düzeltiyor, güncellemeleri birlikte planlıyoruz.",
+  },
+];
+
+const faqs: FaqEntry[] = [
+  {
+    q: "Sadece Samsun’daki işletmelerle mi çalışıyorsun?",
+    a: "Hayır. Samsun’dayım; yakındaysan yüz yüze görüşebiliriz. Diğer şehirlerden işletmelerle WhatsApp, telefon ve görüntülü görüşme üzerinden çalışıyorum.",
+  },
+  {
+    q: "Bir uygulama ya da site ne kadara mal olur?",
+    a: "Fiyatı ekran sayısı, üyelik ve ödeme gibi özellikler ve bağlanacak servisler belirliyor. Kısa bir görüşmeden sonra kalem kalem yazılı teklif veriyorum; neyin fiyatı artırdığını görerek karar veriyorsun.",
+    link: { href: "/yazilar/android-uygulama-yaptirmak/", label: "Fiyatı belirleyen şeyleri ayrıca yazdım." },
+  },
+  {
+    q: "Ne kadar sürer?",
+    a: "Kapsama bağlı. Teklifle birlikte haftalara bölünmüş bir takvim paylaşıyorum ve her aşamanın sonunda çalışan bir sürüm görüyorsun.",
+  },
+  {
+    q: "Yapay zeka kullanman kaliteyi düşürmez mi?",
+    a: "Araçlar taslağı hızlandırıyor; mimari, test ve mağaza kurallarına uyum hâlâ benim işim. Her sürümü gerçek cihazda deniyor, sık yapılan hataları proje kurallarına çeviriyorum.",
+    link: { href: "/yapay-zeka-destekli-gelistirme/", label: "Nasıl çalıştığımı burada anlattım." },
+  },
+  {
+    q: "Hesaplar ve kaynak kod kimde kalır?",
+    a: "Alan adı, barındırma ve Google Play geliştirici hesabının senin adına açılmasını öneriyorum. Kaynak kodun teslimi ve yayından sonraki destek teklifte açıkça yazıyor.",
+  },
+  {
+    q: "Mevcut uygulamamı ya da sitemi devralabilir misin?",
+    a: "Evet. Önce kodu ve yayındaki sürümü inceliyorum, sonra neyin düzeltilebileceğini ve neyin baştan yazılması gerektiğini gerekçesiyle söylüyorum.",
+  },
+];
+
+const title = "Android Uygulama ve Web Sitesi Geliştirici, Samsun | Emre Bilgin";
+const description =
+  "Samsun’da Android uygulama ve web sitesi geliştiriyorum. Google Play’de yayında dört uygulama, işletmeler için aramada bulunan hızlı siteler.";
+
+const schema = graph(
+  websiteNode(),
+  personNode(),
+  businessNode(),
+  webPageNode({ path: "/", title, description }),
+  faqNode("/", faqs),
+);
+---
+
+<Base title={title} description={description} schema={schema}>
+  <section class="hero wrap">
+    <div class="hero__text">
+      <h1 class="hero__title">Android uygulamaları ve web siteleri geliştiriyorum.</h1>
+      <p class="hero__lede">
+        Samsun’dayım; işletmeler ve girişimlerle yüz yüze ya da uzaktan çalışıyorum. Ekran taslağından
+        Google Play yayınına kadar işin tamamını üstleniyorum. Yapay zeka araçlarını hız için
+        kullanıyorum, neyin yayına çıkacağına ben karar veriyorum.
+      </p>
+      <div class="hero__actions">
+        <a class="btn" href={whatsappUrl()}>
+          WhatsApp’tan yaz <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="link-more" href={url("/isler/")}>İşleri incele</a>
+      </div>
+    </div>
+    <div class="hero__proof">
+      <LiveIndex />
+    </div>
+  </section>
+
+  <section class="section section--rule" aria-label="Hizmetler">
+    <div class="wrap splits">
+      <article class="split">
+        <div class="split__text">
+          <h2 class="section-title">Android uygulama geliştirme</h2>
+          <p>
+            React Native (Expo) ile, gerektiğinde iOS’a da taşınabilecek tek bir kod tabanıyla; ya da
+            Kotlin ile doğrudan Android için yazıyorum. Bildirimler, internetsiz çalışma, uygulama içi
+            satın alma ve reklam da işin içinde. Play Console’daki mağaza metni, veri güvenliği formu ve
+            inceleme süreci de bende.
+          </p>
+          <ul class="ticks">
+            <li>Arayüz tasarımı ve ekran akışları</li>
+            <li>Firebase ya da Supabase ile arka uç</li>
+            <li>AdMob, abonelik ve tek seferlik satın alma</li>
+            <li>Google Play yayını ve güncellemeler</li>
+          </ul>
+          <a class="link-more" href={url("/android-uygulama-gelistirme/")}>
+            Android hizmetinin ayrıntıları <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="split__proof">
+          <div class="phones">
+            {
+              finans.data.cover && (
+                <Shot
+                  src={finans.data.cover}
+                  alt={finans.data.coverAlt ?? finans.data.title}
+                  frame="phone"
+                  sizes="(min-width: 60rem) 15rem, 42vw"
+                />
+              )
+            }
+            {
+              ayik.data.cover && (
+                <Shot
+                  src={ayik.data.cover}
+                  alt={ayik.data.coverAlt ?? ayik.data.title}
+                  frame="phone"
+                  sizes="(min-width: 60rem) 15rem, 42vw"
+                />
+              )
+            }
+          </div>
+          <p class="split__caption">
+            Soldaki <a href={url("/isler/finans/")}>Finans</a>, sağdaki
+            <a href={url("/isler/ayik-sofor/")}>Ayık Şoför Samsun</a>. İkisi de Google Play’de; ekranlar
+            gerçek cihazdan.
+          </p>
+        </div>
+      </article>
+
+      <article class="split split--reverse">
+        <div class="split__text">
+          <h2 class="section-title">Web sitesi tasarımı</h2>
+          <p>
+            İşletmeler için kurumsal site, ürün kataloğu ve hizmet sayfaları hazırlıyorum. Her sayfa
+            telefonda hızlı açılacak, Google’da doğru başlıkla görünecek ve ziyaretçiyi tek dokunuşla
+            WhatsApp’a ya da aramaya götürecek şekilde kuruluyor.
+          </p>
+          <ul class="ticks">
+            <li>Tasarım ve kodlama, hazır tema yok</li>
+            <li>Teknik SEO ve yapılandırılmış veri</li>
+            <li>Alan adı, barındırma ve Search Console kurulumu</li>
+            <li>Sonradan kolay güncellenen içerik yapısı</li>
+          </ul>
+          <a class="link-more" href={url("/web-sitesi-tasarimi/")}>
+            Web sitesi hizmetinin ayrıntıları <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="split__proof">
+          {
+            defne.data.cover && (
+              <Shot
+                src={defne.data.cover}
+                alt={defne.data.coverAlt ?? defne.data.title}
+                frame="desktop"
+                sizes="(min-width: 60rem) 40rem, calc(100vw - 2rem)"
+              />
+            )
+          }
+          <p class="split__caption">
+            <a href={url("/isler/defne-organizasyon/")}>Defne Organizasyon</a>: sekiz hizmet sayfası,
+            filtreli galeri ve KVKK metniyle teslim edilen, Samsun aramalarına göre kurulmuş bir site.
+          </p>
+        </div>
+      </article>
+
+      <article class="split">
+        <div class="split__text">
+          <h2 class="section-title">Yapay zeka destekli geliştirme</h2>
+          <p>
+            Kod yazmayı hızlandıran araçları her gün kullanıyorum ama çıktıyı olduğu gibi yayına
+            almıyorum. Araçların sık yaptığı hataları proje kurallarına çeviriyor, her sürümü gerçek
+            cihazda deniyorum. Böylece aynı işi daha kısa sürede, kontrolü elden bırakmadan bitiriyorum.
+          </p>
+          <a class="link-more" href={url("/yapay-zeka-destekli-gelistirme/")}>
+            Nasıl çalıştığımı oku <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="split__proof">
+          <figure class="rules">
+            <figcaption class="rules__cap">
+              Finans projesinin README dosyasından, kısaltılarak
+            </figcaption>
+            <ol class="rules__list">
+              <li>
+                <strong>Tarihler <code>toISOString()</code> ile üretilmez.</strong> UTC’ye çevrim, Türkiye
+                saatinde gece yarısından sonraki kayıtları bir gün geriye atar.
+              </li>
+              <li>
+                <strong>Formatlı tutar <code>parseFloat</code> ile okunmaz.</strong> Ekrandaki “1.500”,
+                bu fonksiyon için 1,5’tir.
+              </li>
+              <li>
+                <strong>Şema değişince sürüm artar.</strong> Kullanıcının verisi bir geçiş adımıyla
+                korunur.
+              </li>
+            </ol>
+          </figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section--rule" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="work-title" class="section-title">İşler</h2>
+        <p class="lede">
+          Google Play’deki dört uygulama ve dört web projesi. Her birinin sayfasında ne yaptığımı,
+          neden öyle yaptığımı ve hangi teknolojiyi kullandığımı anlattım.
+        </p>
+      </div>
+      <WorkTable entries={work} caption="Uygulamalar ve web projeleri" />
+      <p class="section-foot">
+        <a class="link-more" href={url("/isler/")}>
+          Görselleriyle bütün işler <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--rule" aria-labelledby="process-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="process-title" class="section-title">Nasıl çalışıyorum</h2>
+        <p class="lede">
+          Aracı şirket ya da ekip yok; ilk görüşmeden yayına kadar konuştuğun kişi, işi yapan kişi.
+        </p>
+      </div>
+      <Steps steps={steps} />
+    </div>
+  </section>
+
+  <section class="section section--rule" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="faq-title" class="section-title">Sık sorulanlar</h2>
+      </div>
+      <Faq items={faqs} />
+    </div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section class="section section--rule" aria-labelledby="posts-title">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 id="posts-title" class="section-title">Yazılar</h2>
+            <p class="lede">Yaptığım işlerden çıkan notlar: yayın süreçleri, maliyetler, araçlar.</p>
+          </div>
+          <ol class="posts" role="list">
+            {posts.map((post) => (
+              <li class="posts__item">
+                <time class="posts__date" datetime={isoDate(post.data.published)}>
+                  {formatDate(post.data.published)}
+                </time>
+                <h3 class="posts__title">
+                  <a href={url(`/yazilar/${post.id}/`)}>{post.data.title}</a>
+                </h3>
+                <p class="posts__desc">{post.data.description}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  <ContactBlock />
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-block: clamp(2.5rem, 2rem + 4vw, 6rem) clamp(3.5rem, 3rem + 5vw, 8rem);
+  }
+
+  .hero__title {
+    font-size: var(--text-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    max-width: 14ch;
+  }
+
+  .hero__lede {
+    margin-top: var(--space-lg);
+    font-size: var(--text-md);
+    line-height: 1.55;
+    color: var(--color-muted);
+    max-width: 52ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-xl);
+    margin-top: var(--space-xl);
+  }
+
+  .splits {
+    display: grid;
+    gap: var(--section-gap);
+  }
+
+  .split {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .split__text > p {
+    margin-top: var(--space-md);
+    max-width: 56ch;
+  }
+
+  .split__text .link-more {
+    margin-top: var(--space-lg);
+  }
+
+  .ticks {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-top: var(--space-md);
+    padding: 0;
+    list-style: none;
+    color: var(--color-muted);
+  }
+
+  .ticks li {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+  }
+
+  .ticks li::before {
+    content: "–";
+    color: var(--color-accent);
+  }
+
+  .phones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 15rem));
+    gap: var(--space-md);
+  }
+
+  .phones :global(.shot:nth-child(2)) {
+    margin-top: var(--space-2xl);
+  }
+
+  .split__caption {
+    margin-top: var(--space-sm);
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+    max-width: 52ch;
+  }
+
+  .rules {
+    margin: 0;
+    padding-block: var(--space-md) var(--space-lg);
+    border-top: var(--rule-bold) solid var(--color-ink);
+    border-bottom: var(--rule-hair) solid var(--color-ink);
+  }
+
+  .rules__cap {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  .rules__list {
+    display: grid;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    padding-left: 1.4em;
+  }
+
+  .rules__list li {
+    color: var(--color-muted);
+  }
+
+  .rules__list strong {
+    display: block;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .rules__list li::marker {
+    font-family: var(--font-display);
+    color: var(--color-accent);
+  }
+
+  .section-head {
+    display: grid;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .section-foot {
+    margin-top: var(--space-lg);
+  }
+
+  .posts {
+    padding: 0;
+    list-style: none;
+    border-top: var(--rule-hair) solid var(--color-ink);
+  }
+
+  .posts__item {
+    display: grid;
+    gap: var(--space-2xs) var(--space-xl);
+    padding-block: var(--space-lg);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .posts__date {
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  .posts__title {
+    font-size: var(--text-lg);
+  }
+
+  .posts__title a {
+    text-decoration: none;
+  }
+
+  .posts__title a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+  }
+
+  .posts__desc {
+    color: var(--color-muted);
+    max-width: 62ch;
+  }
+
+  @media (min-width: 60rem) {
+    .hero {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      column-gap: var(--space-3xl);
+      align-items: end;
+    }
+
+    .split {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-3xl);
+    }
+
+    .split--reverse .split__text {
+      order: 2;
+    }
+
+    .split--reverse {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+
+    .section-head {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: var(--space-3xl);
+      align-items: end;
+    }
+
+    .posts__item {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+
+    .posts__date {
+      grid-row: span 2;
+      padding-top: 0.35em;
+    }
+  }
+</style>

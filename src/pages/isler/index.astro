@@ -1,0 +1,240 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ContactBlock from "../../components/ContactBlock.astro";
+import Shot from "../../components/Shot.astro";
+import { kindLabel, sortWork, statusLabel } from "../../lib/format";
+import { breadcrumbNode, graph, webPageNode } from "../../lib/schema";
+import { absoluteUrl, url } from "../../lib/url";
+import { Image } from "astro:assets";
+
+const work = (await getCollection("work")).sort(sortWork);
+const apps = work.filter((entry) => entry.data.kind === "android");
+const sites = work.filter((entry) => entry.data.kind === "web");
+
+const title = "İşler: Android Uygulamaları ve Web Siteleri | Emre Bilgin";
+const description =
+  "Google Play’de yayında olan dört Android uygulaması ve işletmeler için hazırladığım web siteleri. Her projede ne yaptığımı ve hangi teknolojiyi kullandığımı anlattım.";
+const crumbs = [
+  { name: "Ana sayfa", href: "/" },
+  { name: "İşler", href: "/isler/" },
+];
+
+const schema = graph(
+  webPageNode({ path: "/isler/", title, description, type: "CollectionPage", crumbs }),
+  breadcrumbNode("/isler/", crumbs),
+  {
+    "@type": "ItemList",
+    "@id": `${absoluteUrl("/isler/")}#liste`,
+    itemListElement: work.map((entry, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/isler/${entry.id}/`),
+      name: entry.data.title,
+    })),
+  },
+);
+
+const groups = [
+  {
+    id: "uygulamalar",
+    title: "Android uygulamaları",
+    intro: "Dördü de Google Play’de, Lokums geliştirici hesabıyla yayında. Tasarımı, kodu ve mağaza sürecini ben yürütüyorum.",
+    entries: apps,
+  },
+  {
+    id: "web",
+    title: "Web siteleri ve web ürünleri",
+    intro: "İşletmeler için hazırladığım siteler ve kendi dijital davetiye ürünüm.",
+    entries: sites,
+  },
+];
+---
+
+<Base title={title} description={description} schema={schema} og="isler">
+  <div class="wrap page-head">
+    <Breadcrumbs items={crumbs} />
+    <h1 class="page-title">İşler</h1>
+    <p class="lede">
+      2026’da yaptığım uygulamalar ve siteler. Her birinin sayfasında sorunu, verdiğim kararları ve
+      kullandığım teknolojiyi anlattım; ekran görüntüleri gerçek sürümlerden.
+    </p>
+    <nav class="jump" aria-label="Bu sayfada">
+      {groups.map((group) => <a href={`#${group.id}`}>{group.title}</a>)}
+    </nav>
+  </div>
+
+  {
+    groups.map((group) => (
+      <section class="section section--rule" id={group.id} aria-labelledby={`${group.id}-title`}>
+        <div class="wrap">
+          <div class="group-head">
+            <h2 id={`${group.id}-title`} class="section-title">
+              {group.title}
+            </h2>
+            <p class="muted">{group.intro}</p>
+          </div>
+
+          <div class="entries">
+            {group.entries.map((entry, index) => (
+              <article class:list={["entry", { "entry--reverse": index % 2 === 1 }]}>
+                <div class="entry__text">
+                  <p class="entry__meta">
+                    {kindLabel[entry.data.kind]} · {entry.data.category} · {statusLabel[entry.data.status]}
+                  </p>
+                  <h3 class="entry__title">
+                    <a href={url(`/isler/${entry.id}/`)}>{entry.data.title}</a>
+                  </h3>
+                  <p class="entry__tagline">{entry.data.tagline}</p>
+                  <p class="entry__stack">{entry.data.stack.join(" · ")}</p>
+                  <a class="link-more" href={url(`/isler/${entry.id}/`)}>
+                    Projeyi incele <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+                <div class="entry__visual">
+                  {entry.data.cover ? (
+                    <Shot
+                      src={entry.data.cover}
+                      alt={entry.data.coverAlt ?? entry.data.title}
+                      frame={entry.data.coverFrame}
+                      sizes={
+                        entry.data.coverFrame === "phone"
+                          ? "(min-width: 60rem) 15rem, 50vw"
+                          : "(min-width: 60rem) 42rem, calc(100vw - 2rem)"
+                      }
+                      eager={index === 0 && group.id === "uygulamalar"}
+                    />
+                  ) : (
+                    entry.data.icon && (
+                      <div class="entry__iconbox">
+                        <Image src={entry.data.icon} alt={`${entry.data.title} uygulama simgesi`} width={128} height={128} densities={[1, 2]} />
+                      </div>
+                    )
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <ContactBlock
+    title="Sıradaki iş seninki olabilir."
+    intro="Aklındaki uygulamayı ya da siteyi kısaca anlat; neyin mümkün olduğunu, nereden başlamak gerektiğini ve kabaca ne kadar süreceğini konuşalım."
+  />
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-lg);
+    margin-top: var(--space-lg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .jump a {
+    white-space: nowrap;
+  }
+
+  .group-head {
+    display: grid;
+    gap: var(--space-sm);
+    max-width: 62ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .entries {
+    display: grid;
+  }
+
+  .entry {
+    display: grid;
+    gap: var(--space-lg);
+    padding-block: var(--space-2xl);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .entry:first-child {
+    border-top-color: var(--color-ink);
+  }
+
+  .entry__meta {
+    font-size: var(--text-xs);
+    color: var(--color-neutral);
+  }
+
+  .entry__title {
+    margin-top: var(--space-xs);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .entry__title a {
+    text-decoration: none;
+  }
+
+  .entry__title a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 2px;
+  }
+
+  .entry__tagline {
+    margin-top: var(--space-sm);
+    font-size: var(--text-md);
+    line-height: 1.5;
+    color: var(--color-muted);
+    max-width: 44ch;
+  }
+
+  .entry__stack {
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-neutral);
+  }
+
+  .entry__text .link-more {
+    margin-top: var(--space-lg);
+  }
+
+  .entry__iconbox {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-md);
+    background: var(--color-paper-2);
+  }
+
+  .entry__iconbox :global(img) {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 1.8rem;
+  }
+
+  @media (min-width: 60rem) {
+    .entry {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      column-gap: var(--space-3xl);
+      align-items: center;
+    }
+
+    .entry--reverse {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+
+    .entry--reverse .entry__text {
+      order: 2;
+    }
+
+    .entry__visual :global(.shot--phone) {
+      margin-inline: auto;
+    }
+  }
+</style>
