@@ -1,6 +1,5 @@
 ---
 import Base from "../layouts/Base.astro";
-import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site } from "../data/site";
 import { formatDate, isoDate } from "../lib/format";
 import { breadcrumbNode, graph, webPageNode } from "../lib/schema";
@@ -20,9 +19,9 @@ const schema = graph(
 );
 ---
 
-<Base title={title} description={description} schema={schema} og="varsayilan">
+<Base title={title} description={description} schema={schema} og="gizlilik">
   <div class="wrap page-head">
-    <Breadcrumbs items={crumbs} />
+    <p class="block-label">Yasal</p>
     <h1 class="page-title">Gizlilik</h1>
     <p class="lede">
       Kısaca: bu site seni izlemiyor. Son güncelleme:

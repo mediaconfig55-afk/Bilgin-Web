@@ -14,14 +14,15 @@ export interface OgCard {
 
 type Node = { type: string; props: Record<string, unknown> };
 
+// tokens.css ile aynı ton: açık kırık beyaz, tek kurumsal mavi vurgu.
 const color = {
-  paper: "#f9f6ef",
-  paper2: "#f1ede4",
-  rule: "#d7d2c9",
-  ink: "#1b1611",
-  muted: "#4c4741",
-  neutral: "#67625c",
-  accent: "#0b6f49",
+  paper: "#fcfcfd",
+  paper2: "#f6f7f9",
+  rule: "#dfe2e8",
+  ink: "#23272f",
+  muted: "#5c626d",
+  neutral: "#737a86",
+  accent: "#2358b8",
 };
 
 const fontDir = join(process.cwd(), "src", "assets", "og");
@@ -82,7 +83,11 @@ export async function renderOgImage(card: OgCard): Promise<Uint8Array> {
           borderBottom: `3px solid ${color.ink}`,
         },
         [
-          h("div", { fontFamily: "Newsreader", fontSize: 36, letterSpacing: -0.5 }, "Emre Bilgin"),
+          h(
+            "div",
+            { fontFamily: "Plex", fontWeight: 600, fontSize: 34, letterSpacing: -0.5 },
+            "Emre Bilgin",
+          ),
           h("div", { fontSize: 22, color: color.muted }, card.kicker),
         ],
       ),
@@ -92,10 +97,11 @@ export async function renderOgImage(card: OgCard): Promise<Uint8Array> {
         "div",
         {
           display: "flex",
-          fontFamily: "Newsreader",
+          fontFamily: "Plex",
+          fontWeight: 600,
           fontSize: titleSize(card.title),
-          lineHeight: 1.04,
-          letterSpacing: -1.6,
+          lineHeight: 1.06,
+          letterSpacing: -2,
           maxWidth: 1010,
         },
         card.title,

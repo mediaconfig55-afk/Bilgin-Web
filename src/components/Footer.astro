@@ -1,158 +1,119 @@
 ---
-import { services, site, whatsappUrl } from "../data/site";
+// Ft4 — künye. Sıkı bir bilgi bloğu; dört sütunluk bağlantı çiftliği yok.
+import { site, whatsappUrl } from "../data/site";
 import { url } from "../lib/url";
-
-const year = new Date().getFullYear();
-const pages = [
-  { href: "/isler/", label: "İşler" },
-  { href: "/yazilar/", label: "Yazılar" },
-  { href: "/hakkimda/", label: "Hakkımda" },
-  { href: "/iletisim/", label: "İletişim" },
-  { href: "/gizlilik/", label: "Gizlilik" },
-];
 ---
 
-<footer class="colophon">
+<footer class="foot">
   <div class="wrap">
-    <div class="colophon__mast">
-      <div>
-        <a class="colophon__name" href={url("/")}>Emre Bilgin</a>
-        <p class="colophon__tagline">
-          Android uygulamaları ve web siteleri. Samsun’da, Türkiye’nin her yerine.
-        </p>
-      </div>
-      <a class="btn" href={whatsappUrl()} rel="noopener">
+    <div class="foot__top">
+      <p class="foot__say">Aklındaki işi konuşalım.</p>
+      <a class="btn" href={whatsappUrl()}>
         WhatsApp’tan yaz <span class="arrow" aria-hidden="true">→</span>
       </a>
     </div>
 
-    <div class="colophon__rows">
-      <nav class="colophon__row" aria-label="Hizmetler">
-        <h2 class="colophon__label">Hizmetler</h2>
-        <ul>
-          {
-            services.map((service) => (
-              <li>
-                <a href={url(service.href)}>{service.title}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <nav class="colophon__row" aria-label="Site">
-        <h2 class="colophon__label">Site</h2>
-        <ul>
-          {
-            pages.map((page) => (
-              <li>
-                <a href={url(page.href)}>{page.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <div class="colophon__row">
-        <h2 class="colophon__label">İletişim</h2>
-        <ul>
-          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a class="tnum" href={`tel:${site.phone}`}>{site.phoneDisplay}</a></li>
-          <li><a href={site.github} rel="noopener">GitHub</a></li>
-          <li><a href={site.playDeveloper.url} rel="noopener">Google Play</a></li>
-        </ul>
+    <dl class="colophon">
+      <div>
+        <dt>Telefon</dt>
+        <dd><a class="tnum" href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd>
       </div>
-    </div>
+      <div>
+        <dt>E-posta</dt>
+        <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+      </div>
+      <div>
+        <dt>Konum</dt>
+        <dd>{site.city}, {site.country}</dd>
+      </div>
+      <div>
+        <dt>Google Play</dt>
+        <dd><a href={site.playDeveloper.url}>{site.playDeveloper.name}</a></dd>
+      </div>
+    </dl>
 
-    <p class="colophon__fine">
-      © {year} Emre Bilgin · Samsun, Türkiye. Bu site Astro ile yazıldı; başlıklar Newsreader,
-      metinler IBM Plex Sans ile dizildi.
+    <p class="foot__meta">
+      <span>© {new Date().getFullYear()} {site.name}</span>
+      <a href={url("/isler/")}>İşler</a>
+      <a href={url("/iletisim/")}>İletişim</a>
+      <a href={url("/gizlilik/")}>Gizlilik</a>
     </p>
   </div>
 </footer>
 
 <style>
-  .colophon {
-    padding-block: var(--space-2xl) var(--space-xl);
-    border-top: var(--rule-bold) double var(--color-ink);
+  .foot {
+    border-top: var(--rule-hair) solid var(--color-line);
     background: var(--color-paper-2);
+    padding-block: var(--space-2xl) var(--space-lg);
   }
 
-  .colophon__mast {
+  .foot__top {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: var(--space-lg);
     padding-bottom: var(--space-xl);
-    border-bottom: var(--rule-hair) solid var(--color-rule);
   }
 
-  .colophon__name {
+  .foot__say {
     font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: 500;
-    letter-spacing: var(--tracking-display);
-    line-height: 1;
-    text-decoration: none;
-  }
-
-  .colophon__name:hover {
-    color: var(--color-ink);
-  }
-
-  .colophon__tagline {
-    margin-top: var(--space-sm);
-    color: var(--color-muted);
-    max-width: 42ch;
-  }
-
-  .colophon__rows {
-    display: grid;
-    gap: var(--space-md);
-    padding-block: var(--space-lg);
-  }
-
-  .colophon__row {
-    display: grid;
-    gap: var(--space-2xs) var(--space-lg);
-  }
-
-  .colophon__label {
-    font-family: var(--font-body);
-    font-size: var(--text-xs);
     font-weight: 600;
-    letter-spacing: var(--tracking-label);
+    font-size: var(--text-xl);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .colophon {
+    display: grid;
+    gap: var(--space-lg) var(--space-xl);
+    padding-block: var(--space-lg);
+    border-top: var(--rule-hair) solid var(--color-line);
+  }
+
+  .colophon dt {
+    font-size: var(--text-xs);
     color: var(--color-neutral);
   }
 
-  .colophon__row ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs) var(--space-lg);
-    padding: 0;
-    list-style: none;
+  .colophon dd {
+    margin: var(--space-3xs) 0 0;
     font-size: var(--text-sm);
+    overflow-wrap: anywhere;
   }
 
-  .colophon__row a {
-    white-space: nowrap;
+  .colophon a {
     text-decoration: none;
   }
 
-  .colophon__row a:hover {
+  .colophon a:hover {
     text-decoration: underline;
   }
 
-  .colophon__fine {
-    padding-top: var(--space-lg);
-    border-top: var(--rule-hair) solid var(--color-rule);
+  .foot__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: var(--rule-hair) solid var(--color-line);
     font-size: var(--text-xs);
     color: var(--color-neutral);
   }
 
-  @media (min-width: 48rem) {
-    .colophon__row {
-      grid-template-columns: 7rem 1fr;
-      align-items: baseline;
+  .foot__meta a {
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .foot__meta a:hover {
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 40rem) {
+    .colophon {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>

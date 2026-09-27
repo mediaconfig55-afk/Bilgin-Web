@@ -37,20 +37,16 @@ services:
 
 ## Fikir
 
-Kâğıt davetiye basılıyor, dağıtılıyor ve düğünden sonra çoğu zaman atılıyor. Dijital davetiye tek bir bağlantı. Misafir programı, konumu ve geri sayımı görüyor, katılımını bildiriyor. Düğün günü de masadaki QR kodu okutup çektiği fotoğrafları ortak galeriye yüklüyor.
+Kâğıt davetiye basılıyor, dağıtılıyor ve düğünden sonra çoğu zaman atılıyor. Dijital davetiye tek bir bağlantı. Misafir programı, konumu ve geri sayımı görüyor, geleceğini bildiriyor. Düğün günü masadaki kareyi telefonuyla okutup çektiği fotoğrafları ortak albüme yüklüyor.
 
 ## Neler var
 
 - Karşılama animasyonu, aile kartları, program akışı ve canlı geri sayım.
-- Katılım bildirimi, anı defteri ve IBAN’lı hediye kartları; hepsi Supabase’e kaydediliyor.
-- QR kodla, giriş yapmadan fotoğraf yükleme. Galeri etkinlik bitene kadar kilitli kalıyor.
-- Şifreli yönetim paneli: katılım ve anı defteri listeleri, fotoğraf havuzunu elle açma, QR kodu indirme.
-- İsimler, tarih, program ve renkler tek bir ayar dosyasında ya da yönetim panelinde tutuluyor; yeni bir düğün için sayfaların koduna dokunmak gerekmiyor.
+- Katılım bildirimi, anı defteri ve hediye için hesap bilgisi kartları.
+- Kare kodla, üye olmadan fotoğraf yükleme. Albüm düğün bitene kadar kapalı kalıyor.
+- Şifreli bir yönetim ekranı: kimler geliyor, anı defterine ne yazılmış, albüm ne zaman açılacak.
+- İsimler, tarih, program ve renkler tek bir yerden değiştiriliyor; her yeni düğün için sıfırdan bir şey yapılmıyor.
 
 ## Görsellerdeki davetiye
 
-Buradaki "Elif & Kaan" davetiyesi, potansiyel müşterilere gösterilen hayali bir örnek. Gerçek davetiyeler çiftlere özel olduğu için burada yayınlanmıyor.
-
-## Teknik notlar
-
-Davetiye Next.js 16 (App Router), Tailwind CSS v4 ve Framer Motion ile yazıldı; veriler ve fotoğraflar Supabase’de tutuluyor. Tanıtım sayfasındaki davetiye kartı Three.js ile hazırlandı ve parmakla döndürülebiliyor.
+Buradaki “Elif & Kaan” davetiyesi örnek olarak hazırlandı. Gerçek davetiyeler çiftlere özel olduğu için yayınlanmıyor.

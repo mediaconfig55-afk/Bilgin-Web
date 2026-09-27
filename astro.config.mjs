@@ -17,11 +17,6 @@ export default defineConfig({
     // CSS küçük (~20 KB); sayfaya gömmek, ilk açılıştaki engelleyici isteği kaldırıyor.
     inlineStylesheets: "always",
   },
-  markdown: {
-    shikiConfig: {
-      theme: "github-light",
-    },
-  },
   prefetch: {
     prefetchAll: false,
     defaultStrategy: "hover",
@@ -31,60 +26,28 @@ export default defineConfig({
       filter: (page) => !page.endsWith("/404/"),
     }),
   ],
+  // Yazı tipleri derleme sırasında indirilip site ile birlikte sunuluyor;
+  // ziyaretçinin tarayıcısı Google'a istek atmıyor.
   fonts: [
     {
-      provider: fontProviders.local(),
-      name: "Newsreader",
-      cssVariable: "--font-newsreader",
-      fallbacks: ["Georgia", "serif"],
-      options: {
-        variants: [
-          {
-            weight: "400 600",
-            style: "normal",
-            display: "swap",
-            src: ["./src/assets/fonts/newsreader-var.woff2"],
-          },
-        ],
-      },
-    },
-    {
-      provider: fontProviders.local(),
-      name: "IBM Plex Sans",
-      cssVariable: "--font-plex",
+      provider: fontProviders.google(),
+      name: "Schibsted Grotesk",
+      cssVariable: "--font-schibsted",
       fallbacks: ["Arial", "sans-serif"],
-      options: {
-        variants: [
-          {
-            weight: "400 700",
-            style: "normal",
-            display: "swap",
-            src: ["./src/assets/fonts/plex-sans-var.woff2"],
-          },
-          {
-            weight: "400 600",
-            style: "italic",
-            display: "swap",
-            src: ["./src/assets/fonts/plex-sans-italic-var.woff2"],
-          },
-        ],
-      },
+      weights: [500, 600, 700],
+      styles: ["normal"],
+      subsets: ["latin", "latin-ext"],
+      display: "swap",
     },
     {
-      provider: fontProviders.local(),
-      name: "IBM Plex Mono",
-      cssVariable: "--font-plex-mono",
-      fallbacks: ["monospace"],
-      options: {
-        variants: [
-          {
-            weight: 400,
-            style: "normal",
-            display: "swap",
-            src: ["./src/assets/fonts/plex-mono.woff2"],
-          },
-        ],
-      },
+      provider: fontProviders.google(),
+      name: "Instrument Sans",
+      cssVariable: "--font-instrument",
+      fallbacks: ["Arial", "sans-serif"],
+      weights: [400, 500, 600],
+      styles: ["normal"],
+      subsets: ["latin", "latin-ext"],
+      display: "swap",
     },
   ],
 });

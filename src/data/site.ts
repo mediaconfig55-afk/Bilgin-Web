@@ -34,31 +34,5 @@ export const mailtoUrl = (subject = "Proje hakkında") =>
 
 export const primaryNav = [
   { href: "/isler/", label: "İşler" },
-  { href: "/hizmetler/", label: "Hizmetler" },
-  { href: "/hakkimda/", label: "Hakkımda" },
-  { href: "/yazilar/", label: "Yazılar" },
   { href: "/iletisim/", label: "İletişim" },
-] as const;
-
-export const services = [
-  {
-    href: "/android-uygulama-gelistirme/",
-    title: "Android uygulama geliştirme",
-    short: "Fikirden Google Play yayınına kadar Android uygulaması.",
-  },
-  {
-    href: "/web-sitesi-tasarimi/",
-    title: "Web sitesi tasarımı",
-    short: "Telefonda hızlı açılan, Google’da bulunan işletme siteleri.",
-  },
-  {
-    href: "/yapay-zeka-destekli-gelistirme/",
-    title: "Yapay zeka destekli geliştirme",
-    short: "Yapay zeka araçlarıyla hızlanan, elle denetlenen üretim.",
-  },
-  {
-    href: "/samsun-web-tasarim/",
-    title: "Samsun’da web tasarım ve uygulama",
-    short: "Samsun’daki işletmeler için yüz yüze çalışma.",
-  },
 ] as const;

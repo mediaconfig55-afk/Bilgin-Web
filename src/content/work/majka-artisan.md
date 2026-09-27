@@ -28,17 +28,17 @@ services:
 
 ## İş
 
-Majka Artisan, atalık unlar ve ekşi maya ile 24–48 saat soğuk fermantasyonla ekmek yapan küçük bir üretici. Bu tür bir ürünün farkı ilk bakışta görünmüyor; süreci anlatmak gerekiyor. Site bu yüzden bir vitrin olmaktan çok, "ekşi maya ekmek neden farklı" sorusuna cevap veren bir kaynak olarak kuruldu.
+Majka Artisan, atalık unlar ve ekşi maya ile bir iki gün bekletilerek ekmek yapan küçük bir üretici. Bu ekmeğin farkı ilk bakışta görünmüyor; anlatmak gerekiyor. Site bu yüzden bir vitrin olmaktan çok, “ekşi maya ekmek neden farklı” sorusuna cevap veren bir kaynak olarak kuruldu.
 
-## Sayfa yapısı
+## Nasıl kuruldu
 
 - Beş ürünün her biri için ayrı sayfa: içindekiler ve fiyat.
 - Üretim süreci, beslenme rehberi ve sık sorulan sorular sayfaları.
-- İlk yazısı ekşi maya fermantasyonunun faydaları üzerine olan bir blog.
-- Açık ve koyu tema; her sayfada WhatsApp’tan sipariş düğmesi.
+- İlk yazısı ekşi mayanın faydaları üzerine olan bir blog.
+- Açık ve koyu görünüm; her sayfada WhatsApp’tan sipariş düğmesi.
 
-Her ürün ve rehber sayfası ayrı bir aramayı hedefliyor. Blog, "ekşi maya", "glutensiz ekmek" gibi bilgi aramalarından gelen ziyaretçiyi ürün sayfalarına taşımak için var.
+Her ürün ve rehber sayfası ayrı bir aramayı hedefliyor. Blog, bilgi arayan ziyaretçiyi ürün sayfalarına taşımak için var.
 
 ## Durum
 
-Site şu an yayında değil; alan adı bağlandığında bu sayfadan bağlantı verilecek. Buradaki görüntüler sitenin yerel kopyasından alındı.
+Site şu an yayında değil. Buradaki görüntüler teslim edilen sürümden alındı.

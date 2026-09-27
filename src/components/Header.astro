@@ -1,267 +1,128 @@
 ---
-import { primaryNav, site } from "../data/site";
-import { stripBase, url } from "../lib/url";
+// N9 — kenar hizalı sade gezinme. Kutu yok, sadece altta saç teli çizgi.
+import { primaryNav, site, whatsappUrl } from "../data/site";
+import { url } from "../lib/url";
 
-const current = stripBase(Astro.url.pathname);
-const isCurrent = (href: string) => current === href || current.startsWith(href);
+const here = Astro.url.pathname.replace(/\/+$/, "") + "/";
+const isHere = (href: string) => here === url(href).replace(/\/+$/, "") + "/";
 ---
 
-<header class="masthead">
-  <div class="wrap">
-    <div class="masthead__line">
-      <p>
-        Samsun · <span class="masthead__long">Android uygulama ve web sitesi geliştirme</span><span
-          class="masthead__short">Android ve web</span
-        >
-      </p>
-      <a class="masthead__phone tnum" href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
-    </div>
-  </div>
-  <div class="wrap masthead__bar">
-    <a class="wordmark" href={url("/")} aria-label="Emre Bilgin, ana sayfa">Emre Bilgin</a>
-    <button
-      class="menu-toggle"
-      type="button"
-      aria-expanded="false"
-      aria-controls="site-nav"
-      data-menu-toggle
-    >
-      <span data-label>Menü</span>
-      <span class="menu-toggle__icon" aria-hidden="true"></span>
-    </button>
-    <nav id="site-nav" class="site-nav" aria-label="Ana menü" data-menu>
-      <ul>
+<header class="mast">
+  <div class="wrap mast__row">
+    <a class="mast__name" href={url("/")}>{site.name}</a>
+
+    <nav class="mast__nav" aria-label="Ana menü">
+      <ul role="list">
         {
           primaryNav.map((item) => (
             <li>
-              <a href={url(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>
+              <a href={url(item.href)} aria-current={isHere(item.href) ? "page" : undefined}>
                 {item.label}
               </a>
             </li>
           ))
         }
       </ul>
+      <a class="mast__cta" href={whatsappUrl()}>WhatsApp</a>
     </nav>
   </div>
 </header>
 
-<script>
-  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
-  const menu = document.querySelector<HTMLElement>("[data-menu]");
-
-  if (toggle && menu) {
-    const label = toggle.querySelector<HTMLElement>("[data-label]");
-    const setOpen = (open: boolean) => {
-      toggle.setAttribute("aria-expanded", String(open));
-      menu.toggleAttribute("data-open", open);
-      if (label) label.textContent = open ? "Kapat" : "Menü";
-    };
-
-    toggle.addEventListener("click", () => {
-      setOpen(toggle.getAttribute("aria-expanded") !== "true");
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-
-    matchMedia("(min-width: 48rem)").addEventListener("change", (event) => {
-      if (event.matches) setOpen(false);
-    });
-  }
-</script>
-
 <style>
-  .masthead {
-    border-bottom: var(--rule-bold) double var(--color-ink);
+  .mast {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background: color-mix(in oklch, var(--color-paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: var(--rule-hair) solid var(--color-line);
   }
 
-  .masthead__line {
+  .mast__row {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--space-md);
-    padding-block: var(--space-xs);
-    font-size: var(--text-xs);
-    color: var(--color-muted);
-    border-bottom: var(--rule-hair) solid var(--color-rule);
-  }
-
-  .masthead__line p {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .masthead__short {
-    display: none;
-  }
-
-  @media (max-width: 30rem) {
-    .masthead__long {
-      display: none;
-    }
-
-    .masthead__short {
-      display: inline;
-    }
-  }
-
-  .masthead__phone {
-    flex-shrink: 0;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .masthead__bar {
-    display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    column-gap: var(--space-lg);
-    padding-block: var(--space-md);
+    gap: var(--space-md);
+    min-height: 4rem;
   }
 
-  .wordmark {
+  .mast__name {
     font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    font-size: var(--text-md);
+    letter-spacing: var(--tracking-heading);
     line-height: 1;
     text-decoration: none;
     white-space: nowrap;
   }
 
-  .wordmark:hover {
+  .mast__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .mast__nav ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+
+  .mast__nav ul a {
+    display: block;
+    padding-block: var(--space-sm);
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .mast__nav ul a:hover {
     color: var(--color-ink);
   }
 
-  .site-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs) var(--space-lg);
-    padding: 0;
-    list-style: none;
+  .mast__nav ul a[aria-current="page"] {
+    color: var(--color-ink);
+    font-weight: 600;
   }
 
-  .site-nav a {
-    display: inline-block;
-    padding-block: var(--space-2xs);
+  .mast__cta {
+    padding: var(--space-xs) var(--space-md);
+    border: var(--rule-hair) solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    color: var(--color-accent);
     font-size: var(--text-sm);
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1.4;
     text-decoration: none;
     white-space: nowrap;
-    border-bottom: 2px solid transparent;
-  }
-
-  .site-nav a[aria-current="page"] {
-    border-bottom-color: var(--color-accent);
-  }
-
-  .site-nav a:hover {
-    color: var(--color-accent);
-  }
-
-  .menu-toggle {
-    display: none;
-    align-items: center;
-    gap: var(--space-xs);
-    min-height: 2.75rem;
-    padding: 0 var(--space-sm);
-    border: var(--rule-hair) solid var(--color-rule-strong);
-    border-radius: var(--radius-sm);
-    background: transparent;
-    font-size: var(--text-sm);
-    font-weight: 500;
     transition:
       background-color var(--dur-short) var(--ease-out),
-      border-color var(--dur-short) var(--ease-out),
-      transform 100ms var(--ease-out);
+      color var(--dur-short) var(--ease-out);
   }
 
-  .menu-toggle:hover {
-    background: var(--color-paper-2);
-    border-color: var(--color-ink);
+  .mast__cta:hover {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
   }
 
-  .menu-toggle:active {
-    transform: translateY(1px);
-  }
+  @media (max-width: 30rem) {
+    .mast__nav {
+      gap: var(--space-sm);
+    }
 
-  .menu-toggle__icon,
-  .menu-toggle__icon::before {
-    display: block;
-    width: 1rem;
-    height: 1.5px;
-    background: currentColor;
-    transition: transform var(--dur-short) var(--ease-out);
-  }
-
-  .menu-toggle__icon {
-    position: relative;
-    transform: translateY(-3px);
-  }
-
-  .menu-toggle__icon::before {
-    content: "";
-    position: absolute;
-    top: 6px;
-  }
-
-  .menu-toggle[aria-expanded="true"] .menu-toggle__icon {
-    transform: translateY(0) rotate(45deg);
-  }
-
-  .menu-toggle[aria-expanded="true"] .menu-toggle__icon::before {
-    transform: translateY(-6px) rotate(-90deg);
-  }
-
-  @media (max-width: 47.99rem) {
-    .masthead__line p {
+    .mast__nav ul {
+      gap: var(--space-md);
       font-size: var(--text-xs);
     }
 
-    :global(.js) .menu-toggle {
-      display: inline-flex;
-    }
-
-    :global(.js) .site-nav {
-      display: none;
-      flex-basis: 100%;
-    }
-
-    :global(.js) .site-nav[data-open] {
-      display: block;
-    }
-
-    .site-nav ul {
-      padding-top: var(--space-sm);
-    }
-
-    :global(.js) .site-nav ul {
-      flex-direction: column;
-      gap: 0;
-      padding-top: var(--space-md);
-    }
-
-    :global(.js) .site-nav li + li {
-      border-top: var(--rule-hair) solid var(--color-rule);
-    }
-
-    :global(.js) .site-nav a {
-      display: block;
-      padding-block: var(--space-sm);
-      font-size: var(--text-md);
-      font-family: var(--font-display);
-      border-bottom: 0;
-    }
-
-    :global(.js) .site-nav a[aria-current="page"] {
-      color: var(--color-accent-deep);
+    .mast__cta {
+      padding-inline: var(--space-sm);
+      font-size: var(--text-xs);
     }
   }
 </style>

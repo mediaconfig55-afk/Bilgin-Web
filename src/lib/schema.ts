@@ -1,7 +1,7 @@
 // schema.org yapılandırılmış veri üreticileri. Her sayfa tek bir @graph basar;
 // kişi, hizmet ve site düğümleri @id ile birbirine bağlanır.
 import type { CollectionEntry } from "astro:content";
-import { services, site } from "../data/site";
+import { site } from "../data/site";
 import { absoluteUrl } from "./url";
 
 export type JsonLd = Record<string, unknown>;
@@ -35,7 +35,7 @@ export function personNode(): JsonLd {
     "@id": id.person(),
     name: site.name,
     jobTitle: site.jobTitle,
-    url: absoluteUrl("/hakkimda/"),
+    url: absoluteUrl("/"),
     email: `mailto:${site.email}`,
     telephone: site.phone,
     address: address(),
@@ -76,14 +76,12 @@ export function businessNode(): JsonLd {
     founder: { "@id": id.person() },
     knowsLanguage: "tr",
     sameAs: [site.github, site.playDeveloper.url],
-    makesOffer: services.map((service) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: service.title,
-        url: absoluteUrl(service.href),
-      },
-    })),
+    makesOffer: ["Android uygulama geliştirme", "Web sitesi tasarımı ve geliştirme"].map(
+      (name) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name },
+      }),
+    ),
   };
 }
 

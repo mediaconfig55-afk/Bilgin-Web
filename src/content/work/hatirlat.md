@@ -48,25 +48,17 @@ services:
 
 ## Çıkış noktası
 
-Aynı hafta içinde elektrik faturasının son günü, annenin ilaç saati, MTV ödemesi ve bir doğum günü hatırlanmak zorunda. Bunun için genelde birkaç ayrı uygulama kullanılıyor ya da hiçbiri. HatırLat, Türkiye’deki günlük hayata özgü bu hatırlatmaları tek uygulamada, hesap açmadan ve internete bağlanmadan topluyor.
+Aynı hafta içinde elektrik faturasının son günü, annenin ilaç saati, araç vergisi ve bir doğum günü hatırlanmak zorunda. Bunun için ya birkaç ayrı uygulama kullanılıyor ya da hiçbiri. HatırLat bunları tek yerde, üyelik açmadan ve internet gerekmeden topluyor.
 
 ## Neler yapıyor
 
-- Bir kez, her gün, haftanın belirli günleri, her ay, her yıl ya da "3 saatte bir" gibi özel tekrarlar kurulabiliyor.
-- Bildirimden tek dokunuşla "Tamamlandı" ya da 10 dakika, 1 saat erteleme seçiliyor. Sık tekrarlanan hatırlatmalar 23.00 ile 07.00 arasında susuyor.
-- Ödemeler sekmesi fatura, kira, aidat, kredi kartı ve taksitleri tutarlarıyla gösteriyor: bu ay ne ödendi, ne kaldı.
-- MTV, araç muayenesi, trafik sigortası, kasko ve kış lastiği için hazır şablonlar var.
-- 81 il için Diyanet hesaplama yöntemiyle internetsiz namaz vakitleri hesaplanıyor. Konum izni istenmiyor, il seçmek yeterli. Ramazan’da sahur ve iftar hatırlatması da var.
-- Resmi tatiller, bayramlar ve kandiller takvimde hazır geliyor.
+- Bir kez, her gün, her ay, her yıl ya da “üç saatte bir” gibi tekrarlar kurulabiliyor.
+- Bildirimden tek dokunuşla tamamlanıyor ya da erteleniyor. Gece saatlerinde susuyor.
+- Ödemeler bölümü fatura, kira, aidat ve taksitleri tutarıyla gösteriyor: bu ay ne ödendi, ne kaldı.
+- Araç vergisi, muayene, sigorta ve kış lastiği için hazır şablonlar var.
+- 81 il için namaz vakitleri internetsiz hesaplanıyor; konum izni istemiyor, il seçmek yetiyor.
+- Resmî tatiller ve bayramlar takvimde hazır geliyor.
 
-## Tasarım kararları
+## Mağaza görselleri
 
-Koyu bir arayüz ve tek bir vurgu rengi seçtim; kullanıcı isterse beş renkten birine geçebiliyor. Mağaza görsellerini de uygulamayla aynı dilde hazırladım: her görselin üstünde tek cümlelik bir başlık, altında gerçek ekran. Yukarıdaki görseller Google Play listelemesinde kullanılanlar.
-
-## 1.2 sürümünde neler değişti
-
-Bazı telefonlarda günlük ve haftalık hatırlatmaların hiç gelmemesi düzeltildi. Aylık ve yıllık tekrar, "1 gün önce hatırlat" seçeneği, Ödemeler sekmesi, isteğe bağlı namaz vakitleri, sistem teması, PIN ve parmak izi kilidi bu sürümde eklendi.
-
-## Gelir modeli
-
-Uygulama ücretsiz ve reklamla destekleniyor. Ücretsiz sürümde aynı anda 15 hatırlatıcı kurulabiliyor. HatırLat Pro sınırsız hatırlatıcı, 30 günlük ayrıntılı istatistik ve haftalık yedek hatırlatması açıyor.
+Koyu bir arayüz ve tek bir vurgu rengi seçtim; kullanıcı isterse beş renkten birine geçiyor. Google Play’deki tanıtım görsellerini de aynı dilde hazırladım: üstte tek cümle, altta gerçek ekran. Buradaki görseller mağazada kullanılanlar.

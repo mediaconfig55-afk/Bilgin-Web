@@ -1,27 +1,37 @@
 ---
 import Base from "../layouts/Base.astro";
-import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { site, whatsappUrl } from "../data/site";
 import { breadcrumbNode, graph, personNode, webPageNode } from "../lib/schema";
-import { absoluteUrl, url } from "../lib/url";
+import { absoluteUrl } from "../lib/url";
 
-const briefBody = [
-  "Merhaba Emre,",
-  "",
-  "Ne yapmak istiyorum:",
-  "Kimler kullanacak:",
-  "Beğendiğim örnekler:",
-  "Aklımdaki tarih:",
-  "",
-].join("\n");
-const briefMailto = `mailto:${site.email}?subject=${encodeURIComponent("Proje özeti")}&body=${encodeURIComponent(briefBody)}`;
-
-const title = "İletişim | Emre Bilgin, Samsun";
+const title = "İletişim — Emre Bilgin, Samsun";
 const description =
-  "Android uygulama ya da web sitesi için Emre Bilgin’e WhatsApp, telefon veya e-postayla ulaş. Samsun’da yüz yüze, Türkiye geneli uzaktan görüşme.";
+  "Android uygulaması ya da web sitesi için WhatsApp, telefon veya e-posta. Samsun’da yüz yüze, Türkiye geneli uzaktan.";
 const crumbs = [
   { name: "Ana sayfa", href: "/" },
   { name: "İletişim", href: "/iletisim/" },
+];
+
+const kanallar = [
+  {
+    label: "WhatsApp",
+    value: site.phoneDisplay,
+    href: whatsappUrl(),
+    note: "En hızlısı. Yazılı ya da sesli mesaj at.",
+    primary: true,
+  },
+  {
+    label: "Telefon",
+    value: site.phoneDisplay,
+    href: `tel:${site.phone}`,
+    note: "Açamazsam geri dönüyorum.",
+  },
+  {
+    label: "E-posta",
+    value: site.email,
+    href: `mailto:${site.email}`,
+    note: "Uzun anlatım ve dosya için.",
+  },
 ];
 
 const schema = graph(
@@ -36,57 +46,44 @@ const schema = graph(
 
 <Base title={title} description={description} schema={schema} og="iletisim">
   <div class="wrap page-head">
-    <Breadcrumbs items={crumbs} />
-    <h1 class="page-title">İletişim</h1>
+    <p class="block-label">İletişim</p>
+    <h1 class="page-title">Fikrini anlat, gerisini ben çıkarayım</h1>
     <p class="lede">
-      En hızlı yol WhatsApp. Kısa bir mesaj yeterli; gerisini birlikte netleştiririz.
+      Ne yapmak istediğini iki üç cümleyle yaz. Ne kadar süreceğini ve ne tutacağını yazılı
+      göndereyim.
     </p>
   </div>
 
-  <div class="wrap contact-page">
-    <ul class="channels" role="list">
-      <li class="channel">
-        <p class="channel__label">WhatsApp</p>
-        <a class="channel__value tnum" href={whatsappUrl()}>{site.phoneDisplay}</a>
-        <p class="channel__note">Yazılı mesaj, sesli mesaj ya da görsel gönderebilirsin.</p>
-      </li>
-      <li class="channel">
-        <p class="channel__label">Telefon</p>
-        <a class="channel__value tnum" href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
-        <p class="channel__note">Açamazsam mesajını görüp geri dönüyorum.</p>
-      </li>
-      <li class="channel">
-        <p class="channel__label">E-posta</p>
-        <a class="channel__value" href={`mailto:${site.email}`}>{site.email}</a>
-        <p class="channel__note">
-          Uzun anlatımlar ve dosyalar için. <a href={briefMailto}>Hazır bir proje özeti şablonuyla yaz.</a>
-        </p>
-      </li>
-      <li class="channel">
-        <p class="channel__label">Konum</p>
-        <p class="channel__value">Samsun, Türkiye</p>
-        <p class="channel__note">
-          Samsun’da yüz yüze görüşebiliriz. <a href={url("/samsun-web-tasarim/")}>Samsun’daki işletmeler için</a>
-        </p>
+  <div class="wrap page">
+    <ul class="kanallar" role="list">
+      {
+        kanallar.map((k) => (
+          <li class:list={["kanal", { "kanal--primary": k.primary }]}>
+            <p class="kanal__label">{k.label}</p>
+            <a class:list={["kanal__value", { tnum: k.label !== "E-posta" }]} href={k.href}>
+              {k.value}
+            </a>
+            <p class="kanal__note">{k.note}</p>
+          </li>
+        ))
+      }
+      <li class="kanal">
+        <p class="kanal__label">Nerede</p>
+        <p class="kanal__value">Samsun</p>
+        <p class="kanal__note">Buradaysan yüz yüze; değilsen uzaktan çalışıyoruz.</p>
       </li>
     </ul>
 
-    <section class="brief" aria-labelledby="brief-title">
-      <h2 id="brief-title" class="brief__title">Mesajında ne olsun?</h2>
+    <section class="brief" aria-labelledby="brief-basligi">
+      <h2 id="brief-basligi" class="brief__title">Mesajda şunlar olsun</h2>
       <ol class="brief__list">
-        <li>
-          <strong>Ne yapmak istediğin.</strong> İki üç cümle yeterli: “Müşterilerim telefondan randevu
-          alabilsin” gibi.
-        </li>
-        <li><strong>Kimlerin kullanacağı.</strong> Müşterilerin mi, çalışanların mı, herkes mi?</li>
-        <li>
-          <strong>Beğendiğin örnekler.</strong> Benzer bir uygulama ya da site varsa bağlantısı çok iş görür.
-        </li>
-        <li><strong>Tarih.</strong> Bir açılış, sezon ya da etkinlik için yetişmesi gerekiyorsa.</li>
+        <li><strong>Ne istiyorsun.</strong> “Müşterilerim telefondan randevu alsın” yeter.</li>
+        <li><strong>Kim kullanacak.</strong> Müşterilerin mi, çalışanların mı?</li>
+        <li><strong>Beğendiğin bir örnek.</strong> Varsa bağlantısı çok iş görür.</li>
+        <li><strong>Tarih.</strong> Yetişmesi gereken bir gün varsa.</li>
       </ol>
       <p class="brief__note">
-        Bütçen belliyse onu da yazabilirsin; kapsamı ona göre önerebilirim. Belli değilse sorun değil,
-        teklifte kalem kalem göreceksin.
+        Bütçen belliyse yaz, kapsamı ona göre önereyim. Belli değilse de sorun yok.
       </p>
       <a class="btn" href={whatsappUrl()}>
         WhatsApp’tan yaz <span class="arrow" aria-hidden="true">→</span>
@@ -96,45 +93,56 @@ const schema = graph(
 </Base>
 
 <style>
-  .contact-page {
+  .page {
     display: grid;
     gap: var(--space-2xl);
     padding-bottom: var(--section-gap);
   }
 
-  .channels {
-    padding: 0;
-    list-style: none;
-    border-top: var(--rule-bold) solid var(--color-ink);
-  }
-
-  .channel {
+  .kanallar {
     display: grid;
-    gap: var(--space-2xs);
-    padding-block: var(--space-lg);
-    border-bottom: var(--rule-hair) solid var(--color-rule);
+    gap: var(--space-md);
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
-  .channel__label {
+  .kanal {
+    padding: var(--space-md) var(--space-lg);
+    border: var(--rule-hair) solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background: var(--color-paper-2);
+  }
+
+  .kanal--primary {
+    border-color: var(--color-accent);
+    background: var(--color-accent-wash);
+  }
+
+  .kanal__label {
     font-size: var(--text-xs);
-    font-weight: 600;
     color: var(--color-neutral);
   }
 
-  .channel__value {
+  .kanal__value {
+    display: block;
+    margin-top: var(--space-3xs);
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
+    font-weight: 600;
     line-height: 1.2;
+    letter-spacing: var(--tracking-heading);
+    color: var(--color-ink);
     text-decoration: none;
     overflow-wrap: anywhere;
   }
 
-  a.channel__value:hover {
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent);
+  a.kanal__value:hover {
+    color: var(--color-accent);
   }
 
-  .channel__note {
+  .kanal__note {
+    margin-top: var(--space-2xs);
     font-size: var(--text-sm);
     color: var(--color-muted);
   }
@@ -142,7 +150,7 @@ const schema = graph(
   .brief {
     align-self: start;
     padding-top: var(--space-md);
-    border-top: var(--rule-hair) solid var(--color-ink);
+    border-top: var(--rule-bold) solid var(--color-line-strong);
   }
 
   .brief__title {
@@ -153,25 +161,33 @@ const schema = graph(
     display: grid;
     gap: var(--space-sm);
     margin-top: var(--space-lg);
-    padding-left: 1.3em;
+    padding-left: 1.2em;
     color: var(--color-muted);
+  }
+
+  .brief__list li::marker {
+    color: var(--color-accent);
   }
 
   .brief__list strong {
     color: var(--color-ink);
-    font-weight: 600;
   }
 
   .brief__note {
     margin-block: var(--space-lg);
+    font-size: var(--text-sm);
     color: var(--color-muted);
-    max-width: 56ch;
+    max-width: 44ch;
   }
 
-  @media (min-width: 64rem) {
-    .contact-page {
+  @media (min-width: 60rem) {
+    .page {
       grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
       column-gap: var(--space-3xl);
+    }
+
+    .kanallar {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

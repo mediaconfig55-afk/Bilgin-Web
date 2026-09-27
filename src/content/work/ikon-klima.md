@@ -35,18 +35,17 @@ services:
 
 ## İş
 
-İkon Klima ve Isı Sistemleri; duvar tipi klimadan VRF sistemlerine ve ısı pompasına kadar geniş bir ürün yelpazesi satıyor, kurulum ve bakım yapıyor. Sitenin asıl görevi ürünleri bulunur kılmak: hangi model hangi alana uygun, enerji sınıfı ne, bilgi almak için kime yazılır.
+İkon Klima ve Isı Sistemleri; duvar tipi klimadan büyük bina sistemlerine ve ısı pompasına kadar geniş bir ürün yelpazesi satıyor, kurulum ve bakım yapıyor. Sitenin asıl görevi ürünleri bulunur kılmak: hangi model hangi alana uygun, enerji sınıfı ne, bilgi almak için kime yazılır.
 
 ## Neler var
 
-- Beş ürün grubu için sekmeler: duvar tipi, multi split, ticari seri, VRF sistemleri ve ısı pompası.
+- Beş ürün grubu için ayrı sekmeler.
 - Ürün adına, modele ya da özelliğe göre arama.
-- Her ürün için ayrı bir detay sayfası; kartlarda enerji sınıfı etiketi.
-- Sık sorulan sorular bölümü ve her sayfadan WhatsApp’a tek dokunuşla ulaşma.
-- Ana sayfanın arka planında Three.js ile hazırlanmış hafif bir 3D sahne.
+- Her ürünün kendi sayfası; kartlarda enerji sınıfı etiketi.
+- Sık sorulan sorular ve her sayfadan WhatsApp’a tek dokunuş.
 
-Ürünler tek bir veri dosyasından geliyor. Yeni bir model eklemek için HTML’e dokunmak gerekmiyor, dosyaya bir kayıt eklemek yetiyor.
+Firma yeni bir model eklemek istediğinde tek bir listeye satır eklemesi yetiyor; sayfalara dokunması gerekmiyor.
 
 ## Durum
 
-Site şu an yayında değil; alan adı bağlandığında bu sayfadan bağlantı verilecek. Buradaki görüntüler sitenin yerel kopyasından alındı.
+Site şu an yayında değil. Buradaki görüntüler teslim edilen sürümden alındı.

@@ -47,7 +47,7 @@ const jsonLd = schema ? JSON.stringify(schema).replace(/</g, "\\u003c") : null;
     {!noindex && <link rel="canonical" href={canonical} />}
     <meta name="robots" content={robots} />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#f9f6ef" />
+    <meta name="theme-color" content="#fcfcfd" />
     <meta name="format-detection" content="telephone=no" />
     {
       site.googleSiteVerification && (
@@ -61,9 +61,8 @@ const jsonLd = schema ? JSON.stringify(schema).replace(/</g, "\\u003c") : null;
     <link rel="manifest" href={url("/site.webmanifest")} />
     <link rel="sitemap" href={url("/sitemap-index.xml")} />
 
-    <Font cssVariable="--font-newsreader" preload />
-    <Font cssVariable="--font-plex" preload={[{ style: "normal" }]} />
-    <Font cssVariable="--font-plex-mono" />
+    <Font cssVariable="--font-schibsted" preload />
+    <Font cssVariable="--font-instrument" preload={[{ weight: 400 }]} />
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={site.name} />

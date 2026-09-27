@@ -36,20 +36,12 @@ services:
 
 ## İhtiyaç
 
-Defne Organizasyon; Samsun ve ilçelerinde düğün, kına, söz-nişan, sünnet, doğum günü, baby shower, hastane odası süsleme ve açılış organizasyonu yapıyor. Müşterileri Instagram’dan ve telefonla geliyordu. Google’da "Samsun kına organizasyonu" gibi bir arama yapan kişinin karşısına çıkabilecek bir siteye ihtiyaçları vardı.
+Defne Organizasyon; Samsun ve ilçelerinde düğün, kına, nişan, sünnet, doğum günü ve açılış organizasyonu yapıyor. Müşterileri Instagram’dan ve telefonla geliyordu. “Samsun kına organizasyonu” gibi bir arama yapan kişinin karşısına çıkacak bir siteye ihtiyaçları vardı.
 
-## Sayfa yapısı
+## Nasıl kuruldu
 
-Her hizmet için ayrı bir sayfa hazırladım. Böylece her sayfa kendi aramasını hedefliyor; kendi başlığı, açıklaması ve görselleri var. Toplamda sekiz hizmet sayfası, filtrelenebilir bir galeri, hakkımızda ve iletişim sayfaları ile KVKK aydınlatma metni var.
+Her hizmet için ayrı bir sayfa hazırladım; böylece her sayfa kendi aramasını hedefliyor. Toplamda sekiz hizmet sayfası, kategoriye göre filtrelenen bir galeri, hakkımızda ve iletişim sayfaları var.
 
-Sitede fiyat bilgisi yok. Bu işte satış konuşarak kapandığı için bütün düğmeler telefona, WhatsApp’a ya da Instagram hesabına gidiyor.
+Sitede fiyat yok. Bu işte satış konuşarak kapandığı için bütün düğmeler telefona, WhatsApp’a ya da Instagram’a gidiyor.
 
-## Teknik taraf
-
-Derleme adımı ya da bağımlılık yok: saf HTML, CSS ve JavaScript. Bu sayede site, sıradan bir paylaşımlı hostinge de, Vercel’e de olduğu gibi kopyalanıp çalışıyor.
-
-- Görseller JPEG ve WebP olarak ikişer kez hazırlandı; tarayıcı desteklediği biçimi alıyor.
-- Canonical adresler, Open Graph etiketleri, site haritası ve robots dosyası yayındaki adrese göre ayarlandı; site Google Search Console’a eklendi.
-- Galeri kategoriye göre filtreleniyor, fotoğraflar tam ekran açılıyor.
-- Özel bir 404 sayfası var.
-- Yeni hizmet sayfası eklemek için tekrar kullanılabilir bir sayfa şablonu da teslim edildi.
+Firma yeni bir hizmet eklemek istediğinde kullanabileceği hazır bir sayfa şablonu da teslim edildi.

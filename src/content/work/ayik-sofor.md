@@ -40,22 +40,18 @@ services:
   - /samsun-web-tasarim/
 ---
 
-## İş
+## Ne işe yarıyor
 
-Ayık Şoför, Samsun’da alkol aldığınızda ya da yorgun olduğunuzda aracınızla sizi evinize bırakan bir şoför hizmeti. Talepler çoğunlukla gece ve telefondan geliyor. Uygulamanın tek bir görevi var: bu talebi eksiksiz ve tek dokunuşla iletmek.
+Ayık Şoför, Samsun’da alkol aldığınızda ya da yorgun olduğunuzda sizi kendi aracınızla evinize bırakan bir şoför hizmeti. Talepler çoğunlukla gece geliyor ve acele. Uygulamanın tek bir işi var: talebi eksiksiz ve tek dokunuşla iletmek.
 
-## Neden sunucu yok
+## Neden ayrı bir sipariş paneli yok
 
-Hizmet zaten WhatsApp üzerinden yürüyordu. Ayrı bir sipariş paneli kurmak yerine uygulama; ad, plaka, kişi sayısı, varış adresi ve notu konum bağlantısıyla birlikte hazır bir WhatsApp mesajına dönüştürüyor. İşletmenin bakımını yapması gereken bir sunucu, veritabanı ya da yönetim paneli yok. İşletme için bu, aylık sunucu gideri ve bakım derdi olmadan çalışan bir uygulama demek.
+Hizmet zaten WhatsApp üzerinden yürüyordu. Uygulama; ad, plaka, kişi sayısı, varış adresi ve konumu hazır bir WhatsApp mesajına dönüştürüyor. İşletmenin bakmakla uğraşacağı bir panel yok — dolayısıyla aylık bir gideri de yok.
 
-## Ayrıntılar
+## Müşterinin gördüğü
 
-- Konum, talep gönderildiği anda alınıyor. Zaman aşımı olursa son bilinen konum kullanılıyor. İzin ya da GPS kapalıysa üst çubuktaki rozetten tek dokunuşla açılabiliyor.
-- Ad ve plaka telefonda hatırlanıyor; bir sonraki talepte yeniden yazılmıyor.
-- Tarife listesi ve kilometreye göre tahmini fiyat hesaplayıcı var.
-- Açık ve koyu tema, dokunsal geri bildirim var; telefonun "animasyonları azalt" ayarına uyuluyor.
-- Arka planda konum, depolama ve mikrofon izinleri bilerek kapatıldı. Uygulama yalnızca işine yarayan izni istiyor.
-
-## Teknik notlar
-
-Expo SDK 54 ve React Native 0.81 ile, yeni mimari ve Hermes açık olarak yazıldı. Fiyat hesabı, form doğrulama ve WhatsApp mesajı üretimi yan etkisiz fonksiyonlara ayrıldı ve testlerle korunuyor. Sürüm imzalama derleme adımına eklendi; yeni sürüm tek komutla hazırlanıyor.
+- Konum otomatik ekleniyor; kapalıysa üstteki uyarıdan tek dokunuşla açılıyor.
+- Ad ve plaka hatırlanıyor, her seferinde yeniden yazılmıyor.
+- Fiyat tarifesi ve kilometreye göre tahmini tutar hesabı var.
+- Açık ve koyu görünüm; telefonun kendi ayarına uyuyor.
+- Yalnızca işine yarayan izinleri istiyor, fazlasını değil.

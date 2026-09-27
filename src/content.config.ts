@@ -41,23 +41,7 @@ const work = defineCollection({
           }),
         )
         .default([]),
-      services: z.array(z.string()).default([]),
     }),
 });
 
-const posts = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
-  schema: z.object({
-    title: z.string(),
-    // Başlık uzunsa arama sonuçları için kısa bir <title>.
-    seoTitle: z.string().max(55).optional(),
-    description: z.string().max(170),
-    published: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    topic: z.string(),
-    relatedWork: z.array(z.string()).default([]),
-    relatedService: z.string().optional(),
-  }),
-});
-
-export const collections = { work, posts };
+export const collections = { work };

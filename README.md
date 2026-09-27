@@ -1,80 +1,73 @@
-# Emre Bilgin — kişisel site
+# Bilgin Web
 
-Samsun'da Android uygulama ve web sitesi geliştirme işleri için kişisel site.
-[Astro](https://astro.build) ile yazıldı, statik olarak derlenip GitHub Pages'te yayınlanıyor.
+Emre Bilgin'in kişisel sitesi. Astro ile kuruldu, GitHub Pages'te yayınlanıyor.
 
-Yayındaki adres: https://mediaconfig55-afk.github.io/Bilgin-Web/
+**Yayında:** https://mediaconfig55-afk.github.io/Bilgin-Web/
 
-## Komutlar
+## Site nasıl kurulu
 
-| Komut             | Ne yapar                                                       |
-| ----------------- | -------------------------------------------------------------- |
-| `npm install`     | Bağımlılıkları kurar (Node 22.12 veya üstü)                    |
-| `npm run dev`     | Geliştirme sunucusu: http://localhost:4321/Bilgin-Web/         |
-| `npm run build`   | `dist/` klasörüne derler ve ardından SEO denetimini çalıştırır |
-| `npm run preview` | Derlenmiş siteyi yerelde açar                                  |
-| `npm run check`   | Astro ve TypeScript tip denetimi                               |
-| `npm run format`  | Prettier ile biçimlendirme                                     |
+13 sayfa, dört tür:
 
-`npm run build` sonunda çalışan `scripts/verify-dist.mjs`; her sayfada başlık, açıklama,
-canonical, tek `h1`, Open Graph görseli, JSON-LD, görsel boyutları ve kırık iç bağlantı olup
-olmadığına bakar. Bir sorun varsa derleme hata verir ve site yayına çıkmaz.
+| Sayfa                   | Dosya                                                    |
+| ----------------------- | -------------------------------------------------------- |
+| Ana sayfa (3B hero)     | `src/pages/index.astro`                                  |
+| İşler listesi           | `src/pages/isler/index.astro`                            |
+| Proje sayfaları (×8)    | `src/pages/isler/[slug].astro` + `src/content/work/*.md` |
+| İletişim, Gizlilik, 404 | `src/pages/`                                             |
 
-## Klasörler
+Siteye giren kişi işletme sahibi; teknik terim kullanılmıyor. Bir metin ekleyeceksen
+ölçüt şu: **bilgisayarla arası olmayan bir esnaf bunu ilk okuyuşta anlıyor mu?**
+Anlamıyorsa o cümle siteye girmez.
 
+## Yeni proje eklemek
+
+`src/content/work/` içine bir `.md` dosyası aç. Frontmatter alanları
+`src/content.config.ts` içinde tanımlı; `order` sıralamayı belirliyor (küçük olan önce).
+Görseller `src/assets/work/<proje>/` altına konuyor ve frontmatter'dan göreli yolla
+bağlanıyor.
+
+Dikey (telefon) bir ekran görüntüsü eklersen proje otomatik olarak ana sayfadaki
+3B sahneye de girmeye aday olur (ilk beş proje gösteriliyor).
+
+## 3B hero
+
+`src/components/Hero3D.astro`. Ham WebGL2 ile yazıldı — three.js ya da başka bir
+kütüphane yok, toplam ~4 KB. Gerçek uygulama ekranlarını 3B uzayda dokulu yüzeyler
+olarak çiziyor.
+
+- Sürüklenebilir; imleç üzerindeyken hafif paralaks veriyor.
+- Her ekran kendi proje sayfasına gidiyor (tuval üstündeki görünmez bağlantılar).
+- WebGL yoksa altındaki normal görsel dizisi görünür kalıyor.
+- Sayfa görüş alanı dışındayken çizim tamamen duruyor.
+- Telefonun "animasyonları azalt" ayarına uyuyor.
+
+## Günlük işler
+
+```bash
+npm install
+npm run dev        # geliştirme
+npm run build      # derle + dist denetimi
+npm run preview    # derlenmiş hâli aç
+npm run check      # tip kontrolü
 ```
-src/
-  content/work/     Her proje bir Markdown dosyası (vaka çalışmaları)
-  content/posts/    Blog yazıları
-  assets/work/      Proje ekran görüntüleri (derlemede AVIF/WebP'ye çevrilir)
-  assets/fonts/     Newsreader, IBM Plex Sans ve Plex Mono (Latin + Türkçe alt küme)
-  assets/og/        Paylaşım görselleri için statik font dosyaları
-  components/       Başlık, footer, ekran görüntüsü, SSS, iletişim bloğu vb.
-  layouts/          Genel sayfa iskeleti ve hizmet sayfası şablonu
-  pages/            Sayfalar; og/[slug].png.ts paylaşım görsellerini üretir
-  data/site.ts      İletişim bilgileri, menü ve hizmet listesi
-  lib/              Bağlantı, tarih ve yapılandırılmış veri (schema.org) yardımcıları
-  styles/           Renk, tipografi ve boşluk değişkenleri (tokens.css) ve genel stiller
-scripts/
-  verify-dist.mjs   Derleme sonrası SEO denetimi
-  make-icons.mjs    Favicon ve uygulama simgelerini yeniden üretir
-```
 
-## İçerik güncelleme
+`npm run build`, derlemeden sonra `scripts/verify-dist.mjs` çalıştırıyor: her sayfanın
+başlığı, açıklaması, canonical adresi, tek bir h1'i, OG görseli, JSON-LD'si ve iç
+bağlantıları kontrol ediliyor. Kırık bir bağlantı varsa derleme kırmızıya düşüyor.
 
-**Uygulama sürümü değişince:** `src/content/work/<proje>.md` içindeki `version` ve `updated`
-alanlarını güncelle. Ana sayfadaki "Şu an yayında" listesi ve paylaşım görseli buradan beslenir.
+## Yayınlama
 
-**Yeni proje eklemek:** `src/content/work/` altına mevcut dosyalardan birini örnek alarak yeni bir
-`.md` dosyası ekle, görsellerini `src/assets/work/<proje>/` klasörüne koy. `order` alanı listedeki
-sırayı belirler.
+`main` dalına atılan her commit GitHub Actions ile otomatik yayınlanıyor
+(`.github/workflows/`). Elle bir şey yapmak gerekmiyor.
 
-**Yeni yazı eklemek:** `src/content/posts/` altına bir `.md` dosyası ekle. Başlık 55 karakteri
-geçiyorsa arama sonuçları için `seoTitle` alanına kısa bir başlık yaz.
+## Alan adı değiştirmek
 
-**İletişim bilgileri:** `src/data/site.ts`.
+`astro.config.mjs` içindeki `SITE_URL` ve `BASE_PATH` yeterli. Kendi alan adına
+geçerken `BASE_PATH` `"/"` olacak.
 
-## Yayın
+## Tasarım
 
-`main` dalına her gönderimde `.github/workflows/deploy.yml` siteyi derler, denetler ve GitHub
-Pages'e yükler. Deponun **Settings → Pages → Build and deployment → Source** ayarı
-**GitHub Actions** olmalı.
-
-### Özel alan adına geçiş
-
-`astro.config.mjs` içindeki `SITE_URL` değerini alan adına (ör. `https://emrebilgin.com`),
-`BASE_PATH` değerini `/` yap ve `public/` klasörüne alan adını içeren bir `CNAME` dosyası ekle.
-Canonical adresler, site haritası, robots.txt ve paylaşım görselleri buna göre kendiliğinden
-güncellenir.
-
-### Search Console
-
-Search Console'da HTML etiketiyle doğrulama yapılacaksa kodu `src/data/site.ts` içindeki
-`googleSiteVerification` alanına yaz, ardından site haritasını
-(`sitemap-index.xml`) Search Console'a ekle.
-
-## Lisanslar
-
-Kod MIT lisanslı (`LICENSE`). Yazı tipleri SIL Open Font License ile dağıtılıyor; lisans metinleri
-`src/assets/fonts/` ve `src/assets/og/` klasörlerinde. Proje görselleri ve metinler ilgili
-projelere aittir.
+Renkler, yazı tipleri ve boşluklar `src/styles/tokens.css` içinde tek yerden
+yönetiliyor. Kodun hiçbir yerinde doğrudan renk kodu yazılmıyor; her şey bu
+dosyadaki değişkenlere bağlı. Yazı tipleri derleme sırasında indirilip site ile
+birlikte sunuluyor, ziyaretçinin tarayıcısı Google'a istek atmıyor.
